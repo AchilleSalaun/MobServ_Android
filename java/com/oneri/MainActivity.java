@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import network.ParamsAsyncTask;
+import network.ServletGetAsyncTask;
 import network.ServletPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
         //The following code add someone in the database
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("name", "Bruno"));
-        nameValuePairs.add(new BasicNameValuePair("email", "youplida@eurecom.fr"));
+        /*nameValuePairs.add(new BasicNameValuePair("email", "youplida@eurecom.fr"));
         nameValuePairs.add(new BasicNameValuePair("phone", "0654215862"));
         nameValuePairs.add(new BasicNameValuePair("pict", "http://icons.iconarchive.com/icons/ph03nyx/super-mario/128/Retro-Mario-icon.png"));
-        new ServletPostAsyncTask().execute(new ParamsAsyncTask(this,nameValuePairs));
+        new ServletPostAsyncTask().execute(new ParamsAsyncTask(this,nameValuePairs));*/
+
+        //get informations from the database
+        new ServletGetAsyncTask().execute(new ParamsAsyncTask(this,nameValuePairs));
     }
 
     @Override
