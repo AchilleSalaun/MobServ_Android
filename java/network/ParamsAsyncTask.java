@@ -3,6 +3,8 @@ package network;
 import android.content.Context;
 import android.util.Pair;
 
+import org.apache.http.NameValuePair;
+
 import java.util.ArrayList;
 
 /**
@@ -11,9 +13,9 @@ import java.util.ArrayList;
 public class ParamsAsyncTask {
 
     private Context context;
-    private ArrayList<Pair<String,String>> listPair;
+    private ArrayList<NameValuePair> listPair;
 
-    public ParamsAsyncTask(Context context, ArrayList<Pair<String,String>> listPair){
+    public ParamsAsyncTask(Context context, ArrayList<NameValuePair> listPair){
         this.context = context;
         this.listPair = listPair;
     }
@@ -22,7 +24,7 @@ public class ParamsAsyncTask {
         return context;
     }
 
-    public ArrayList<Pair<String, String>> getListPair() {
+    public ArrayList<NameValuePair> getListPair() {
         return listPair;
     }
 }
