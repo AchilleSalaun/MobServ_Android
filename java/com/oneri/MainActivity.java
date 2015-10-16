@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import network.ServletPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        textView = (TextView) findViewById(R.id.text);
+        //new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
     @Override
