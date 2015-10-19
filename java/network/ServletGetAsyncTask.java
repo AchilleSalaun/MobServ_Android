@@ -29,7 +29,7 @@ public class ServletGetAsyncTask extends AsyncTask<ParamsAsyncTask, Void, String
         context = params[0].getContext();
 
         HttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet("http://oneri-1099.appspot.com/saveContact"); // 10.0.2.2 is localhost's IP address in Android emulator
+        HttpGet httpGet = new HttpGet("http://oneri-1099.appspot.com/getListContent?respType=json"); // 10.0.2.2 is localhost's IP address in Android emulator
         try {
             // Add name data to request
             //List<NameValuePair> nameValuePairs = params[0].getListPair();
