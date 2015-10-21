@@ -16,9 +16,13 @@
 
 package com.oneri;
 
+import com.oneri.list.LazyAdapter;
+import com.oneri.list.TheTask;
+import com.oneri.list.XMLParser;
 import com.oneri.logger.Log;
 import com.oneri.view.SlidingTabLayout;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -26,16 +30,41 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A basic sample which shows how to use {@link com.oneri.view}
  * to display a custom {@link android.support.v4.view.ViewPager} title strip which gives continuous feedback to the user
  * when scrolling.
  */
+
+
 public class SlidingTabsBasicFragment extends Fragment {
 
+
+
+    Context mContext;
     static final String LOG_TAG = "SlidingTabsBasicFragment";
+    ListView list;
+    LazyAdapter adapter;
+    static final String URL = "http://api.androidhive.info/music/music.xml";
+    // XML node keys
+    static final String KEY_SONG = "song"; // parent node
+    static final String KEY_ID = "id";
+    static final String KEY_TITLE = "title";
+    static final String KEY_ARTIST = "artist";
+    static final String KEY_DURATION = "duration";
+    static final String KEY_THUMB_URL = "thumb_url";
 
     /**
      * A custom {@link android.support.v4.view.ViewPager} title strip which looks much like Tabs present in Android v4.0 and
@@ -52,6 +81,15 @@ public class SlidingTabsBasicFragment extends Fragment {
      * Inflates the {@link android.view.View} which will be displayed by this {@link android.support.v4.app.Fragment}, from the app's
      * resources.
      */
+
+    public SlidingTabsBasicFragment(){
+    }
+
+    public SlidingTabsBasicFragment(Context context){
+        super();
+        mContext = context ;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -135,10 +173,53 @@ public class SlidingTabsBasicFragment extends Fragment {
                     container, false);
             // Add the newly created View to the ViewPager
             container.addView(view);
+            ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+
+            XMLParser parser = new XMLParser();
+            String xml = null;
+            try {
+                xml = new TheTask().execute(URL).get(); // getting XML from URL
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Document doc = parser.getDomElement(xml); // getting DOM element
+
+            NodeList nl = doc.getElementsByTagName(KEY_SONG);
+            // looping through all song nodes <song>
+            for (int i = 0; i < nl.getLength(); i++) {
+                // creating new HashMap
+                HashMap<String, String> map = new HashMap<String, String>();
+                Element e = (Element) nl.item(i);
+                // adding each child node to HashMap key => value
+                map.put(KEY_ID, parser.getValue(e, KEY_ID));
+                map.put(KEY_TITLE, parser.getValue(e, KEY_TITLE));
+                map.put(KEY_ARTIST, parser.getValue(e, KEY_ARTIST));
+                map.put(KEY_DURATION, parser.getValue(e, KEY_DURATION));
+                map.put(KEY_THUMB_URL, parser.getValue(e, KEY_THUMB_URL));
+
+                // adding HashList to ArrayList
+                songsList.add(map);
+            }
 
             // Retrieve a TextView from the inflated View, and update it's text
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            title.setText(String.valueOf(position + 1));
+            list = (ListView) view.findViewById(R.id.list);
+            adapter=new LazyAdapter(mContext, songsList);
+            list.setAdapter(adapter);
+
+
+            // Click event for single list row
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+
+                }
+            });
 
             Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
 

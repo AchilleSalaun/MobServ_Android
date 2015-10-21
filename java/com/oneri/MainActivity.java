@@ -25,6 +25,7 @@ import android.widget.ViewAnimator;
 
 import com.oneri.activities.SampleActivityBase;
 import com.oneri.logger.*;
+import com.oneri.list.*;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -47,7 +48,7 @@ public class MainActivity extends SampleActivityBase {
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
+            SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment(this);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
