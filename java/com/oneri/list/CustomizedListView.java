@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -18,14 +19,14 @@ import com.oneri.R;
 
 public class CustomizedListView extends Activity {
 	// All static variables
-	static final String URL = "http://api.androidhive.info/music/music.xml";
+	static final String URL = "http://oneri-1099.appspot.com/getListContent?respType=xml";
 	// XML node keys
 	static final String KEY_SONG = "song"; // parent node
 	static final String KEY_ID = "id";
-	static final String KEY_TITLE = "title";
-	static final String KEY_ARTIST = "artist";
-	static final String KEY_DURATION = "duration";
-	static final String KEY_THUMB_URL = "thumb_url";
+	static final String KEY_TITLE = "Description";
+	static final String KEY_ARTIST = "Creator";
+	static final String KEY_DURATION = "ContentType";
+	static final String KEY_THUMB_URL = "ImageURL";
 	
 	ListView list;
     LazyAdapter adapter;
@@ -40,6 +41,7 @@ public class CustomizedListView extends Activity {
 
 		XMLParser parser = new XMLParser();
 		String xml = parser.getXmlFromUrl(URL); // getting XML from URL
+		Log.d("debug", xml);
 		Document doc = parser.getDomElement(xml); // getting DOM element
 		
 		NodeList nl = doc.getElementsByTagName(KEY_SONG);

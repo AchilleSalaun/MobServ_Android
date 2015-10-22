@@ -57,14 +57,14 @@ public class SlidingTabsBasicFragment extends Fragment {
     static final String LOG_TAG = "SlidingTabsBasicFragment";
     ListView list;
     LazyAdapter adapter;
-    static final String URL = "http://api.androidhive.info/music/music.xml";
+    static final String URL = "http://oneri-1099.appspot.com/getListContent?respType=xml";
     // XML node keys
     static final String KEY_SONG = "song"; // parent node
     static final String KEY_ID = "id";
-    static final String KEY_TITLE = "title";
-    static final String KEY_ARTIST = "artist";
-    static final String KEY_DURATION = "duration";
-    static final String KEY_THUMB_URL = "thumb_url";
+    static final String KEY_TITLE = "Description";
+    static final String KEY_ARTIST = "Creator";
+    static final String KEY_DURATION = "ContentType";
+    static final String KEY_THUMB_URL = "ImageURL";
 
     /**
      * A custom {@link android.support.v4.view.ViewPager} title strip which looks much like Tabs present in Android v4.0 and
