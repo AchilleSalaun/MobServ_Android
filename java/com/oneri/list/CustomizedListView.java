@@ -23,7 +23,7 @@ public class CustomizedListView extends Activity {
 	// XML node keys
 	static final String KEY_SONG = "song"; // parent node
 	static final String KEY_ID = "id";
-	static final String KEY_TITLE = "Description";
+	static final String KEY_TITLE = "Title";
 	static final String KEY_ARTIST = "Creator";
 	static final String KEY_DURATION = "ContentType";
 	static final String KEY_THUMB_URL = "ImageURL";
