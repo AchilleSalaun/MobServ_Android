@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,8 +61,8 @@ public class SlidingTabsBasicFragment extends Fragment {
     static final String KEY_SONG = "song"; // parent node
     static final String KEY_ID = "id";
     static final String KEY_TITLE = "Title";
-    static final String KEY_ARTIST = "Creator";
-    static final String KEY_DURATION = "ContentType";
+    static final String KEY_CREATOR = "Creator";
+    static final String KEY_TYPE = "ContentType";
     static final String KEY_THUMB_URL = "ImageURL";
 
     /**
@@ -136,7 +135,7 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public int getCount() {
-            return 10;
+            return 6;
         }
 
         /**
@@ -158,7 +157,21 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Item " + (position + 1);
+            switch (position) {
+                case 0:
+                    return "movie";
+                case 1:
+                    return "book";
+                case 2:
+                    return "video game";
+                case 3:
+                    return "comic";
+                case 4:
+                    return "series";
+                case 5:
+                    return "music";
+                default : return "nothing";
+            }
         }
         // END_INCLUDE (pageradapter_getpagetitle)
 
@@ -191,17 +204,22 @@ public class SlidingTabsBasicFragment extends Fragment {
             // looping through all song nodes <song>
             for (int i = 0; i < nl.getLength(); i++) {
                 // creating new HashMap
+
                 HashMap<String, String> map = new HashMap<String, String>();
                 Element e = (Element) nl.item(i);
-                // adding each child node to HashMap key => value
-                map.put(KEY_ID, parser.getValue(e, KEY_ID));
-                map.put(KEY_TITLE, parser.getValue(e, KEY_TITLE));
-                map.put(KEY_ARTIST, parser.getValue(e, KEY_ARTIST));
-                map.put(KEY_DURATION, parser.getValue(e, KEY_DURATION));
-                map.put(KEY_THUMB_URL, parser.getValue(e, KEY_THUMB_URL));
+                if (parser.getValue(e, KEY_TYPE).compareTo(getPageTitle(position).toString()) == 0) {
+                    // adding each child node to HashMap key => value
 
-                // adding HashList to ArrayList
-                songsList.add(map);
+                    map.put(KEY_ID, parser.getValue(e, KEY_ID));
+                    map.put(KEY_TITLE, parser.getValue(e, KEY_TITLE));
+                    map.put(KEY_CREATOR, parser.getValue(e, KEY_CREATOR));
+                    map.put(KEY_TYPE, parser.getValue(e, KEY_TYPE));
+                    map.put(KEY_THUMB_URL, parser.getValue(e, KEY_THUMB_URL));
+
+                    // adding HashList to ArrayList
+                    songsList.add(map);
+
+                }
             }
 
             // Retrieve a TextView from the inflated View, and update it's text
@@ -216,7 +234,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-
+                    Log.i(LOG_TAG, "");
 
                 }
             });

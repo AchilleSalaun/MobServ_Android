@@ -3,7 +3,6 @@ package com.oneri.list;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,12 @@ public class LazyAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater=null;
-    public ImageLoader imageLoader; 
-    
+    public ImageLoader imageLoader;
+    static final String KEY_TITLE = "Title";
+    static final String KEY_CREATOR = "Creator";
+    static final String KEY_TYPE = "ContentType";
+    static final String KEY_THUMB_URL = "ImageURL";
+
     public LazyAdapter(Context context, ArrayList<HashMap<String, String>> d) {
         mContext = context;
         data=d;
@@ -46,18 +49,18 @@ public class LazyAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.list_row, null);
 
         TextView title = (TextView)vi.findViewById(R.id.title); // title
-        TextView artist = (TextView)vi.findViewById(R.id.artist); // artist name
-        TextView duration = (TextView)vi.findViewById(R.id.duration); // duration
+        TextView artist = (TextView)vi.findViewById(R.id.creator); // artist name
+        TextView duration = (TextView)vi.findViewById(R.id.type); // duration
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
         
         HashMap<String, String> song = new HashMap<String, String>();
         song = data.get(position);
         
         // Setting all values in listview
-        title.setText(song.get(CustomizedListView.KEY_TITLE));
-        artist.setText(song.get(CustomizedListView.KEY_ARTIST));
-        duration.setText(song.get(CustomizedListView.KEY_DURATION));
-        imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
+        title.setText(song.get(KEY_TITLE));
+        artist.setText(song.get(KEY_CREATOR));
+        duration.setText(song.get(KEY_TYPE));
+        imageLoader.DisplayImage(song.get(KEY_THUMB_URL), thumb_image);
         return vi;
     }
 }
