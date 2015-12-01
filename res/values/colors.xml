@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="movieColor">#840006</color>
+    <color name="bookColor">#0658cd</color>
+    <color name="musicColor">#ffbb43</color>
+    <color name="videoGameColor">#00c440</color>
+    <color name="comicColor">#d4650b</color>
+    <color name="tvshowColor">#590987</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#80000000</color>
+    <color name="grey">#3dffffff</color>
+
+</resources>

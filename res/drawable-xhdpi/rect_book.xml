@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/bookColor"/>
+    <padding android:left="@dimen/tile_padding"
+        android:top="@dimen/tile_padding"
+        android:right="@dimen/tile_padding"
+        android:bottom="@dimen/tile_padding" />
+</shape>
