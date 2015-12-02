@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.oneri.Activities.MainActivity;
+import com.oneri.MainActivity;
 import com.oneri.GlobalVars;
 
 /**

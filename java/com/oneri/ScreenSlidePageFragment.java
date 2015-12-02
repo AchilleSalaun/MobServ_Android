@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.oneri.Activities.MainActivity;
+import com.oneri.Adapters.ItemsAdapter;
 import com.oneri.Model.Content;
 
 import java.net.URLEncoder;
@@ -138,7 +138,6 @@ public class ScreenSlidePageFragment extends Fragment {
         }
     };
 
-
     /*** Finalement on n'utilise pas ça pour le moment
      * Si on l'utilise : le scroll s'arrête quand on arrive à la fin d'une des deux listviews
      * (et donc la fin de l'autre scrollview ne peut pas s'afficher)
@@ -194,12 +193,5 @@ public class ScreenSlidePageFragment extends Fragment {
 
         }
     };
-
-
-
-
-
-
-
 
 }

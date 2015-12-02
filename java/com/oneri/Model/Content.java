@@ -17,7 +17,6 @@ public class Content {
     @SerializedName("ContentType")
     String mContentType;
 
-
     @SerializedName("Description")
     String mDescription;
 
@@ -72,9 +71,8 @@ public class Content {
         return this.mImageURL;
     }
 
-    /***Pour tester si l'objet a bien reçu***/
+    /***Pour tester si l'objet est bien reçu***/
     public String getJsonString() {
-
         JSONObject object = new JSONObject();
         try {
             object.put("Title", mTitle);
@@ -86,9 +84,7 @@ public class Content {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return object.toString();
-
     }
 
 

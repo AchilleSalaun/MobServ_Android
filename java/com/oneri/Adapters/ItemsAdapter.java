@@ -1,4 +1,4 @@
-package com.oneri;
+package com.oneri.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oneri.Model.Content;
+import com.oneri.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,16 +61,14 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
             final TextView itemCreator = (TextView)row.findViewById(R.id.item_creator);
 
 
-
             itemTitle.setText(content.getmTitle());
             itemDescription.setText(content.getmDescription());
             itemCreator.setText(content.getmCreator());
             itemCommercialLink.setText(content.getmCommercialLink());
-            /*** L'URL est recuperee depuis la base de donnes***/
+            /*** L'URL est recuperee depuis la base de donnees***/
             String urlFromDB = content.getmImageURL();
             Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
             /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
-
 
             holder.itemImage = itemImage;
             holder.itemTitle = itemTitle;

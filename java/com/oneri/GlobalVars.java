@@ -27,6 +27,8 @@ import retrofit.Retrofit;
 
 public class GlobalVars extends Application {
 
+    public static String EMAIL_CURRENT_USER = "kevin@gmail.com";
+
     public static ArrayList<String> CONTENT_LIST_FLAG_SERVLET;
 
     public static ArrayList<Integer> CONTENT_LIST_FLAG_DRAWABLE;

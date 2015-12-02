@@ -19,4 +19,10 @@ public interface APIEndpointInterface {
     @GET("getRecommendations?")
     Call<List<Content>> getContents(@Query("email") String email, @Query("contentType") String content);
 
+    @GET("getLikedContent?")
+    Call<List<Content>> getLikedContents(@Query("email") String email);
+
+    @GET("getMyContent?")
+    Call<List<Content>> getMyContents(@Query("email") String email, @Query("type") String type);
+
 }

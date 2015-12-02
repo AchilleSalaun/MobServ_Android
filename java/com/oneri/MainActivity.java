@@ -1,4 +1,4 @@
-package com.oneri.Activities;
+package com.oneri;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.oneri.CustomViewPager;
-import com.oneri.GlobalVars;
-import com.oneri.R;
-import com.oneri.ScreenSlidePageFragment;
 import com.oneri.SlidingTabs.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundResource(R.color.movieColor);
         toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.user);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Nav", Toast.LENGTH_SHORT).show();
+            }
+        });
         setSupportActionBar(toolbar);
 
         mViewPager = (CustomViewPager) findViewById(R.id.viewpager);
@@ -68,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
         /*if( id == R.id.search){
             Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
         }*/
-        if( id == R.id.user){
+        if( id == R.id.dice){
             Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
         }
-        if( id == R.id.cat){
+        if( id == R.id.user){
             Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
+            Intent intent = new Intent(this, MyContentActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
