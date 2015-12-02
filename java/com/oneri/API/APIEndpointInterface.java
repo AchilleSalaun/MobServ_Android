@@ -1,11 +1,14 @@
 package com.oneri.API;
 
 import com.oneri.Model.Content;
+import com.oneri.Model.Relation;
 
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -24,5 +27,15 @@ public interface APIEndpointInterface {
 
     @GET("getMyContent?")
     Call<List<Content>> getMyContents(@Query("email") String email, @Query("type") String type);
+
+    /*@POST("saveRelation?")
+    Call<Relation> saveRelation(@Body Relation relation);*/
+
+    @POST("saveRelation?")
+    Call<Relation> saveRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType,
+                                @Query("relationType") String relationType, @Query("comment") String comment);
+
+    @POST("saveContact")
+    Call<String> saveContact(@Query("email") String email);
 
 }

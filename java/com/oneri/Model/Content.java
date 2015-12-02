@@ -5,11 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by quentinleroy on 28/11/15.
  */
 
-public class Content {
+public class Content implements Serializable{
 
     @SerializedName("Title")
     String mTitle;
@@ -86,6 +88,7 @@ public class Content {
         }
         return object.toString();
     }
+
 
 
 }

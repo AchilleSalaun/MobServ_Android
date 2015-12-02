@@ -27,6 +27,10 @@ import retrofit.Retrofit;
 
 public class GlobalVars extends Application {
 
+    public static String SAVE_RELATION_SERVLET_LIKES = "likes";
+    public static String SAVE_RELATION_SERVLET_WAITING = "waiting";
+    public static String SAVE_RELATION_SERVLET_DOESNT_LIKE = "doesn't like";
+
     public static String EMAIL_CURRENT_USER = "kevin@gmail.com";
 
     public static ArrayList<String> CONTENT_LIST_FLAG_SERVLET;

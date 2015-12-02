@@ -29,6 +29,8 @@ import retrofit.Retrofit;
 
 public class MyContentActivity extends AppCompatActivity {
 
+    public static String EXTRA_MESSAGE = "com.oneri.appcompatactivity";
+
     public static ArrayList<String> HEADER_LIST_TAG;
 
     ExpandableListAdapter listAdapter;
@@ -71,6 +73,9 @@ public class MyContentActivity extends AppCompatActivity {
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
                 Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, listDataChild.get(
+                        listDataHeader.get(groupPosition)).get(
+                        childPosition));
                 startActivity(intent);
                 return false;
             }
@@ -252,5 +257,10 @@ public class MyContentActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    /***TO-DO
+     * OnResume : Recharger entierement tout
+     */
 
 }

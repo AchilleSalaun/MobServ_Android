@@ -22,7 +22,6 @@
 
         <ImageView
             android:id="@+id/content_image"
-            android:background="@drawable/cat"
             android:layout_width="100dp"
             android:layout_height="100dp"
             />
@@ -66,7 +65,8 @@
         android:text="Commercial Link"
         android:id="@+id/content_commercialLink"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:autoLink="web"/>
 
 
     <LinearLayout
@@ -83,7 +83,8 @@
             android:id="@+id/content_relation_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp"
+            android:onClick="saveRelation"/>
 
         <ImageView
             android:layout_weight="1"
@@ -92,7 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp"
+            android:onClick="saveRelation"/>
 
         <ImageView
             android:layout_weight="1"
@@ -100,7 +102,8 @@
             android:id="@+id/content_relation_do_not_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"/>
+            android:paddingLeft="20dp"
+            android:onClick="saveRelation"/>
 
 
 

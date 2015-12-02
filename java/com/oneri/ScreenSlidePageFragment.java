@@ -1,5 +1,6 @@
 package com.oneri;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,7 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.oneri.Adapters.ItemsAdapter;
 import com.oneri.Model.Content;
@@ -28,6 +31,9 @@ import retrofit.Retrofit;
 
 public class ScreenSlidePageFragment extends Fragment {
 
+
+    private Integer LAST_CLICKED;
+
     public ListView listViewLeft;
     public ListView listViewRight;
 
@@ -40,7 +46,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private int position_in_the_tab;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
 
@@ -60,14 +66,55 @@ public class ScreenSlidePageFragment extends Fragment {
         listViewLeft.setOnTouchListener(touchListener);
         listViewRight.setOnTouchListener(touchListener);
 
-        /***TO-DO AJOUTER UN ONINTEMCLICKLISTENER AUX DEUX LISTVIEWS***/
+        listViewLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                switch (LAST_CLICKED){
+                    case 0:
+                        Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getContext(), ContentActivity.class);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getContext(), ContentActivity.class);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+
+        listViewRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                switch (LAST_CLICKED){
+                    case 0:
+                        Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getContext(), ContentActivity.class);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getContext(), ContentActivity.class);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+
 
 
         return rootView;
     }
 
-    private void loadItems(){
-        Call<List<Content>> call = GlobalVars.apiService.getContents(URLEncoder.encode("kevin@gmail.com"), /*URLEncoder.encode(*/GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(position_in_the_tab)/*)*/);
+    private void loadItems() {
+        Call<List<Content>> call = GlobalVars.apiService.getContents(GlobalVars.EMAIL_CURRENT_USER, /*URLEncoder.encode(*/GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(position_in_the_tab)/*)*/);
         call.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -83,6 +130,7 @@ public class ScreenSlidePageFragment extends Fragment {
                 leftItems = new ArrayList<>();
                 rightItems = new ArrayList<>();
 
+                String contentString = "";
                 for (int i = 0; i < contents.size(); i = i + 1) {
                     Log.i("CONTENTS", contents.get(i).getJsonString());
                     if ((i % 2) == 0) {
@@ -90,7 +138,9 @@ public class ScreenSlidePageFragment extends Fragment {
                     } else {
                         rightItems.add(contents.get(i));
                     }
+                    contentString = contentString + contents.get(i).getJsonString();
                 }
+
 
                 /*** On envoie a l'adapteur de la listview les contenus recuperes depuis le servlet***/
                 ItemsAdapter leftAdapter = new ItemsAdapter(getContext(), R.layout.item, leftItems, GlobalVars.CONTENT_LIST_FLAG_DRAWABLE.get(position_in_the_tab));
@@ -116,7 +166,8 @@ public class ScreenSlidePageFragment extends Fragment {
 
     }
 
-    /*** Quand on clicke sur la liste de gauche (respectivement de droite), on dispatch le
+    /***
+     * Quand on clicke sur la liste de gauche (respectivement de droite), on dispatch le
      * click event surla liste de droite (respectivement de gauche)pour lui faire croire
      * qu'on appuie sur les deux, et ainsi les deux listes scrollent
      * même si en fait on en scrolle qu'une sur les deux avec le doigt
@@ -126,19 +177,35 @@ public class ScreenSlidePageFragment extends Fragment {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+
             if (v.equals(listViewLeft) && !dispatched) {
+                LAST_CLICKED = 0;
                 dispatched = true;
                 listViewRight.dispatchTouchEvent(event);
             } else if (v.equals(listViewRight) && !dispatched) {
+                LAST_CLICKED = 1;
                 dispatched = true;
                 listViewLeft.dispatchTouchEvent(event);
             }
             dispatched = false;
             return false;
         }
+
     };
 
-    /*** Finalement on n'utilise pas ça pour le moment
+    Integer CLICK_ACTION_THRESHHOLD = 5;
+
+    private boolean isAClick(float startX, float endX, float startY, float endY) {
+        float differenceX = Math.abs(startX - endX);
+        float differenceY = Math.abs(startY - endY);
+        if (differenceX > CLICK_ACTION_THRESHHOLD/* =5 */ || differenceY > CLICK_ACTION_THRESHHOLD) {
+            return false;
+        }
+        return true;
+    }
+
+    /***
+     * Finalement on n'utilise pas ça pour le moment
      * Si on l'utilise : le scroll s'arrête quand on arrive à la fin d'une des deux listviews
      * (et donc la fin de l'autre scrollview ne peut pas s'afficher)
      * Si on ne l'utilise pas : quand on arrive à la fin d'une des deux listviews,
@@ -156,9 +223,8 @@ public class ScreenSlidePageFragment extends Fragment {
                              int visibleItemCount, int totalItemCount) {
 
             if (view.getChildAt(0) != null) {
-                if (view.equals(listViewLeft) ){
+                if (view.equals(listViewLeft)) {
                     leftViewsHeights[view.getFirstVisiblePosition()] = view.getChildAt(0).getHeight();
-
                     int h = 0;
                     for (int i = 0; i < listViewRight.getFirstVisiblePosition(); i++) {
                         h += rightViewsHeights[i];
