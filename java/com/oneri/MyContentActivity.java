@@ -70,6 +70,8 @@ public class MyContentActivity extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                startActivity(intent);
                 return false;
             }
         });
