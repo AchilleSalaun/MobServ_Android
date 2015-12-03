@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG_POSITION_CHOSEN = "POSITION IN THE TAB";
 
+    public static String EXTRA_MESSAGE = "com.oneri.mainactivity";
+
     private CustomViewPager mViewPager;
 
     @Override
@@ -43,14 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundResource(R.color.movieColor);
-        toolbar.setTitle("");
-        toolbar.setNavigationIcon(R.drawable.user);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Nav", Toast.LENGTH_SHORT).show();
-            }
-        });
+        toolbar.setTitle("Recommendations");
         setSupportActionBar(toolbar);
 
         mViewPager = (CustomViewPager) findViewById(R.id.viewpager);
@@ -99,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("STATUS", "" + response.isSuccess());
                     Content random_content = contents.get(0);
                     Intent intent = new Intent(MainActivity.this, ContentActivity.class);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
                     startActivity(intent);
                 }
 

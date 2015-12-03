@@ -78,14 +78,16 @@ public class ScreenSlidePageFragment extends Fragment {
                         case 0:
                             Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(getContext(), ContentActivity.class);
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, leftItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, leftItems.get(position).getmTitle());
                             startActivity(intent);
                             content_activity_launched = true;
                             break;
                         case 1:
                             Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(getContext(), ContentActivity.class);
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, rightItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, rightItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, rightItems.get(position).getmTitle());
                             startActivity(intent);
                             content_activity_launched = true;
                             break;
@@ -103,14 +105,17 @@ public class ScreenSlidePageFragment extends Fragment {
                         case 0:
                             Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(getContext(), ContentActivity.class);
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, leftItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, leftItems.get(position).getmTitle());
                             startActivity(intent);
                             content_activity_launched = true;
                             break;
                         case 1:
                             Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(getContext(), ContentActivity.class);
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, rightItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, rightItems.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, rightItems.get(position).getmTitle());
+
                             startActivity(intent);
                             content_activity_launched = true;
                             break;

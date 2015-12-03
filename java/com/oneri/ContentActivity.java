@@ -34,11 +34,13 @@ public class ContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        Intent intent = getIntent();
+        content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(intent.getStringExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE));
         setSupportActionBar(toolbar);
 
-        Intent intent = getIntent();
-        content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE);
+
 
         ImageView imageView = (ImageView) findViewById(R.id.content_image);
         String urlFromDB = content.getmImageURL();
@@ -150,7 +152,8 @@ public class ContentActivity extends AppCompatActivity {
                     Log.i("STATUS", "" + response.isSuccess());
                     Content random_content = contents.get(0);
                     Intent intent = new Intent(ContentActivity.this, ContentActivity.class);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
                     startActivity(intent);
                 }
 

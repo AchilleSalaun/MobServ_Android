@@ -29,7 +29,9 @@ import retrofit.Retrofit;
 
 public class MyContentActivity extends AppCompatActivity {
 
-    public static String EXTRA_MESSAGE = "com.oneri.appcompatactivity";
+    public static String EXTRA_MESSAGE_CONTENT = "com.oneri.appcompatactivity(content)";
+    public static String EXTRA_MESSAGE_TOOLBAR_TITLE = "com.oneri.appcompatactivity(toolbartitle)";
+
 
     public static ArrayList<String> HEADER_LIST_TAG;
 
@@ -47,6 +49,7 @@ public class MyContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("My Content");
         setSupportActionBar(toolbar);
 
         HEADER_LIST_TAG = new ArrayList<>();
@@ -73,9 +76,12 @@ public class MyContentActivity extends AppCompatActivity {
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
                 Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, listDataChild.get(
+                intent.putExtra(EXTRA_MESSAGE_CONTENT, listDataChild.get(
                         listDataHeader.get(groupPosition)).get(
                         childPosition));
+                intent.putExtra(EXTRA_MESSAGE_TOOLBAR_TITLE, listDataChild.get(
+                        listDataHeader.get(groupPosition)).get(
+                        childPosition).getmTitle());
                 startActivity(intent);
                 return false;
             }
@@ -258,7 +264,8 @@ public class MyContentActivity extends AppCompatActivity {
                     Log.i("STATUS", "" + response.isSuccess());
                     Content random_content = contents.get(0);
                     Intent intent = new Intent(MyContentActivity.this, ContentActivity.class);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random Content");
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
                     startActivity(intent);
                 }
 

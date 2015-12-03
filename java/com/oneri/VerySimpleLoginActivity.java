@@ -24,6 +24,7 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_very_simple_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Login");
         setSupportActionBar(toolbar);
         emailTv = (EditText) findViewById(R.id.email);
     }

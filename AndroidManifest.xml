@@ -24,26 +24,14 @@
             android:label="@string/title_activity_content"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-        <activity
-            android:name=".SimpleLoginActivity"
-            android:label="@string/title_activity_simple_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".VerySimpleLoginActivity"
             android:label="@string/title_activity_very_simple_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RandomContentActivity"
-            android:label="@string/title_activity_random_content"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
