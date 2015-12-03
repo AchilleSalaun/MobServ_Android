@@ -62,22 +62,12 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = (FrameLayout) inflater.inflate(layoutResourceId, parent, false);
             row.setBackgroundResource(drawableRectColor);
-            final ImageView itemImage = (ImageView)row.findViewById(R.id.item_image);
-            final TextView itemTitle = (TextView)row.findViewById(R.id.item_title);
-            final TextView itemDescription = (TextView)row.findViewById(R.id.item_description);
-            final TextView itemCommercialLink = (TextView)row.findViewById(R.id.item_commercialLink);
-            final TextView itemCreator = (TextView)row.findViewById(R.id.item_creator);
-            itemTitle.setText(content.getmTitle());
-            itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
-            itemTitle.setTextSize((float)25.0);
-            itemDescription.setText(""/*content.getmDescription()*/);
-            itemCreator.setText(content.getmCreator());
-            itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
-            /*** L'URL est recuperee depuis la base de donnees***/
-            String urlFromDB = content.getmImageURL();
-            //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
-            Picasso.with(context).load(urlFromDB).memoryPolicy(MemoryPolicy.NO_CACHE).into(itemImage);
-            /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
+            ImageView itemImage = (ImageView)row.findViewById(R.id.item_image);
+            TextView itemTitle = (TextView)row.findViewById(R.id.item_title);
+            TextView itemDescription = (TextView)row.findViewById(R.id.item_description);
+            TextView itemCommercialLink = (TextView)row.findViewById(R.id.item_commercialLink);
+            TextView itemCreator = (TextView)row.findViewById(R.id.item_creator);
+
             holder.itemImage = itemImage;
             holder.itemTitle = itemTitle;
             holder.itemDescription = itemDescription;
@@ -86,6 +76,19 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
         } else {
             holder = (ItemHolder) row.getTag();
         }
+
+        holder.itemTitle.setText(content.getmTitle());
+        holder.itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        holder.itemTitle.setTextSize((float)25.0);
+        holder.itemDescription.setText(""/*content.getmDescription()*/);
+        holder.itemCreator.setText(content.getmCreator());
+        holder.itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
+        /*** L'URL est recuperee depuis la base de donnees***/
+        String urlFromDB = content.getmImageURL();
+        //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
+        Picasso.with(context).load(urlFromDB)./*memoryPolicy(MemoryPolicy.NO_CACHE).*/into(holder.itemImage);
+        /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
+
 
         row.setTag(holder);
 

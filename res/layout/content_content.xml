@@ -52,20 +52,33 @@
     </LinearLayout>
 
 
-    <TextView
+    <ScrollView
         android:layout_below="@+id/upper_content_layout"
-        android:text="Description"
-        android:id="@+id/content_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_above="@+id/below_content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_below="@+id/content_description"
-        android:text="Commercial Link"
-        android:id="@+id/content_commercialLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="web"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Description"
+                android:id="@+id/content_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Commercial Link"
+                android:id="@+id/content_commercialLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"/>
+        </LinearLayout>
+    </ScrollView>
+
+
 
 
     <LinearLayout
