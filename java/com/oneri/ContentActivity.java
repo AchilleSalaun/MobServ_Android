@@ -18,6 +18,8 @@ import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
