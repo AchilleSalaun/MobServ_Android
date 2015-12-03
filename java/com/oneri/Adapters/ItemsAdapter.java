@@ -86,7 +86,7 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
         /*** L'URL est recuperee depuis la base de donnees***/
         String urlFromDB = content.getmImageURL();
         //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
-        Picasso.with(context).load(urlFromDB)./*memoryPolicy(MemoryPolicy.NO_CACHE).*/into(holder.itemImage);
+        Picasso.with(context).load(urlFromDB).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.itemImage);
         /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
 
 
