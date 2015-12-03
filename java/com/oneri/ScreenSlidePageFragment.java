@@ -32,16 +32,17 @@ import retrofit.Retrofit;
 public class ScreenSlidePageFragment extends Fragment {
 
 
-    private Integer LAST_CLICKED;
+    private Integer last_clicked;
+    private boolean content_activity_launched;
 
-    public ListView listViewLeft;
-    public ListView listViewRight;
+    private ListView listViewLeft;
+    private ListView listViewRight;
 
     int[] leftViewsHeights;
     int[] rightViewsHeights;
 
-    public ArrayList<Content> leftItems;
-    public ArrayList<Content> rightItems;
+    private ArrayList<Content> leftItems;
+    private ArrayList<Content> rightItems;
 
     private int position_in_the_tab;
 
@@ -49,6 +50,8 @@ public class ScreenSlidePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
+
+        this.content_activity_launched = false;
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -69,20 +72,24 @@ public class ScreenSlidePageFragment extends Fragment {
         listViewLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent;
-                switch (LAST_CLICKED){
-                    case 0:
-                        Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
-                        intent = new Intent(getContext(), ContentActivity.class);
-                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
-                        intent = new Intent(getContext(), ContentActivity.class);
-                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
-                        startActivity(intent);
-                        break;
+                if(!content_activity_launched) {
+                    Intent intent;
+                    switch (last_clicked) {
+                        case 0:
+                            Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
+                            intent = new Intent(getContext(), ContentActivity.class);
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                            startActivity(intent);
+                            content_activity_launched = true;
+                            break;
+                        case 1:
+                            Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
+                            intent = new Intent(getContext(), ContentActivity.class);
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, rightItems.get(position));
+                            startActivity(intent);
+                            content_activity_launched = true;
+                            break;
+                    }
                 }
             }
         });
@@ -90,26 +97,27 @@ public class ScreenSlidePageFragment extends Fragment {
         listViewRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent;
-                switch (LAST_CLICKED){
-                    case 0:
-                        Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
-                        intent = new Intent(getContext(), ContentActivity.class);
-                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
-                        intent = new Intent(getContext(), ContentActivity.class);
-                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
-                        startActivity(intent);
-                        break;
+                if(!content_activity_launched) {
+                    Intent intent;
+                    switch (last_clicked) {
+                        case 0:
+                            Toast.makeText(getContext(), "Left Position : " + position, Toast.LENGTH_SHORT).show();
+                            intent = new Intent(getContext(), ContentActivity.class);
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, leftItems.get(position));
+                            startActivity(intent);
+                            content_activity_launched = true;
+                            break;
+                        case 1:
+                            Toast.makeText(getContext(), "Right Position : " + position, Toast.LENGTH_SHORT).show();
+                            intent = new Intent(getContext(), ContentActivity.class);
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE, rightItems.get(position));
+                            startActivity(intent);
+                            content_activity_launched = true;
+                            break;
+                    }
                 }
             }
         });
-
-
-
         return rootView;
     }
 
@@ -127,8 +135,9 @@ public class ScreenSlidePageFragment extends Fragment {
                 Log.i("STATUS", "" + response.raw());
                 Log.i("STATUS", "" + response.isSuccess());
 
-                leftItems = new ArrayList<>();
-                rightItems = new ArrayList<>();
+                leftItems = new ArrayList<Content>();
+                rightItems = new ArrayList<Content>();
+
 
                 String contentString = "";
                 for (int i = 0; i < contents.size(); i = i + 1) {
@@ -137,14 +146,17 @@ public class ScreenSlidePageFragment extends Fragment {
                         leftItems.add(contents.get(i));
                     } else {
                         rightItems.add(contents.get(i));
-                    }
+
+                     }
                     contentString = contentString + contents.get(i).getJsonString();
                 }
 
+                Log.i("CONTENS", "" + contents.size());
+
 
                 /*** On envoie a l'adapteur de la listview les contenus recuperes depuis le servlet***/
-                ItemsAdapter leftAdapter = new ItemsAdapter(getContext(), R.layout.item, leftItems, GlobalVars.CONTENT_LIST_FLAG_DRAWABLE.get(position_in_the_tab));
-                ItemsAdapter rightAdapter = new ItemsAdapter(getContext(), R.layout.item, rightItems, GlobalVars.CONTENT_LIST_FLAG_DRAWABLE.get(position_in_the_tab));
+                ItemsAdapter leftAdapter = new ItemsAdapter(getContext(), R.layout.item, leftItems, GlobalVars.CONTENT_LIST_FLAG_DRAWABLE.get(position_in_the_tab), leftItems.size());
+                ItemsAdapter rightAdapter = new ItemsAdapter(getContext(), R.layout.item, rightItems, GlobalVars.CONTENT_LIST_FLAG_DRAWABLE.get(position_in_the_tab), rightItems.size());
                 listViewLeft.setAdapter(leftAdapter);
                 listViewRight.setAdapter(rightAdapter);
 
@@ -179,11 +191,11 @@ public class ScreenSlidePageFragment extends Fragment {
         public boolean onTouch(View v, MotionEvent event) {
 
             if (v.equals(listViewLeft) && !dispatched) {
-                LAST_CLICKED = 0;
+                last_clicked = 0;
                 dispatched = true;
                 listViewRight.dispatchTouchEvent(event);
             } else if (v.equals(listViewRight) && !dispatched) {
-                LAST_CLICKED = 1;
+                last_clicked = 1;
                 dispatched = true;
                 listViewLeft.dispatchTouchEvent(event);
             }

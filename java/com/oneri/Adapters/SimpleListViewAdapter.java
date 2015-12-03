@@ -11,77 +11,59 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.oneri.Model.Content;
+import com.oneri.Model.Relation;
 import com.oneri.R;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 /**
- * Created by quentinleroy on 26/11/15.
+ * Created by quentinleroy on 03/12/15.
  */
 
-public class ItemsAdapter extends ArrayAdapter<Content> {
+public class SimpleListViewAdapter extends ArrayAdapter<Content> {
 
-    int drawableRectColor;
     Context context;
     LayoutInflater inflater;
     int layoutResourceId;
-    float imageWidth;
-    List<Content> contents;
-    Integer size;
 
-    public ItemsAdapter(Context context, int layoutResourceId, List<Content> contents, int drawableRectColor, int size) {
+    public SimpleListViewAdapter(Context context, int layoutResourceId, ArrayList<Content> contents) {
         super(context, layoutResourceId, contents);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
-        this.drawableRectColor = drawableRectColor;
-        this.contents = contents;
-        this.size = size;
 
-        float width = ((Activity)context).getWindowManager().getDefaultDisplay().getWidth();
-        float margin = (int)convertDpToPixel(10f, (Activity)context);
-        // two images, three margins of 10dips
-        imageWidth = ((width - (3 * margin)) / 2);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        FrameLayout row = (FrameLayout) convertView;
+        RelativeLayout row = (RelativeLayout) convertView;
         ItemHolder holder;
         Content content = getItem(position);
-
 
         if (row == null) {
             holder = new ItemHolder();
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = (FrameLayout) inflater.inflate(layoutResourceId, parent, false);
-            row.setBackgroundResource(drawableRectColor);
-            final ImageView itemImage = (ImageView)row.findViewById(R.id.item_image);
-            final TextView itemTitle = (TextView)row.findViewById(R.id.item_title);
-            final TextView itemDescription = (TextView)row.findViewById(R.id.item_description);
-            final TextView itemCommercialLink = (TextView)row.findViewById(R.id.item_commercialLink);
-            final TextView itemCreator = (TextView)row.findViewById(R.id.item_creator);
+            row = (RelativeLayout) inflater.inflate(layoutResourceId, parent, false);
+            final ImageView itemImage = (ImageView)row.findViewById(R.id.list_image);
+            final TextView itemTitle = (TextView)row.findViewById(R.id.title);
+            final TextView itemCreator = (TextView)row.findViewById(R.id.creator);
+
             itemTitle.setText(content.getmTitle());
             itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
-            itemTitle.setTextSize((float)25.0);
-            itemDescription.setText(""/*content.getmDescription()*/);
+            //itemTitle.setTextSize((float)25.0);
             itemCreator.setText(content.getmCreator());
-            itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
             /*** L'URL est recuperee depuis la base de donnees***/
             String urlFromDB = content.getmImageURL();
-            //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
-            Picasso.with(context).load(urlFromDB).memoryPolicy(MemoryPolicy.NO_CACHE).into(itemImage);
+            Picasso.with(context).load(urlFromDB).into(itemImage);
             /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
+
             holder.itemImage = itemImage;
             holder.itemTitle = itemTitle;
-            holder.itemDescription = itemDescription;
-            holder.itemCommercialLink = itemCommercialLink;
             holder.itemCreator = itemCreator;
         } else {
             holder = (ItemHolder) row.getTag();
@@ -92,18 +74,10 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
         return row;
     }
 
-    @Override
-    public int getCount(){
-        //return this.contents.size();
-        return size;
-    }
-
     public static class ItemHolder
     {
         ImageView itemImage;
         TextView itemTitle;
-        TextView itemDescription;
-        TextView itemCommercialLink;
         TextView itemCreator;
     }
 
@@ -115,3 +89,4 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
     }
 
 }
+

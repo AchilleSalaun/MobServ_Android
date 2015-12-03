@@ -20,4 +20,5 @@
     </string>
     <string name="title_activity_simple_login">SimpleLoginActivity</string>
     <string name="title_activity_very_simple_login">VerySimpleLoginActivity</string>
+    <string name="title_activity_random_content">RandomContentActivity</string>
 </resources>

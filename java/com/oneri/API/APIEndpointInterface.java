@@ -28,6 +28,9 @@ public interface APIEndpointInterface {
     @GET("getMyContent?")
     Call<List<Content>> getMyContents(@Query("email") String email, @Query("type") String type);
 
+    @GET("getRandomContent?")
+    Call<List<Content>> getRandomContent();
+
     /*@POST("saveRelation?")
     Call<Relation> saveRelation(@Body Relation relation);*/
 

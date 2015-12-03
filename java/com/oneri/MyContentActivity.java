@@ -127,7 +127,6 @@ public class MyContentActivity extends AppCompatActivity {
 
 
 
-
     private void loadItems(){
         Call<List<Content>> call_liked_content = GlobalVars.apiService.getLikedContents(GlobalVars.EMAIL_CURRENT_USER );
         Call<List<Content>> call_wish_content = GlobalVars.apiService.getMyContents(GlobalVars.EMAIL_CURRENT_USER, "myList");
@@ -146,11 +145,9 @@ public class MyContentActivity extends AppCompatActivity {
                 Log.i("STATUS", "" + response.isSuccess());
 
                 like_list = new ArrayList<Content>();
-
                 for (int i = 0; i < contents.size(); i = i + 1) {
                     like_list.add(contents.get(i));
                 }
-
                 listDataChild.put(listDataHeader.get(0), like_list);
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + like_list.size());
@@ -247,6 +244,29 @@ public class MyContentActivity extends AppCompatActivity {
 
         if( id == R.id.dice){
             Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+
+            call_random_content.enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
+                    int statusCode = response.code();
+                    List<Content> contents = response.body();
+                    Log.i("STATUS", "" + response.message());
+                    Log.i("STATUS", "" + statusCode);
+                    Log.i("STATUS", "" + response.toString());
+                    Log.i("STATUS", "" + response.raw());
+                    Log.i("STATUS", "" + response.isSuccess());
+                    Content random_content = contents.get(0);
+                    Intent intent = new Intent(MyContentActivity.this, ContentActivity.class);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE, random_content);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
         if( id == R.id.user){
             Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();

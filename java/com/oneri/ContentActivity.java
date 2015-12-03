@@ -134,6 +134,29 @@ public class ContentActivity extends AppCompatActivity {
 
         if( id == R.id.dice){
             Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+
+            call_random_content.enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
+                    int statusCode = response.code();
+                    List<Content> contents = response.body();
+                    Log.i("STATUS", "" + response.message());
+                    Log.i("STATUS", "" + statusCode);
+                    Log.i("STATUS", "" + response.toString());
+                    Log.i("STATUS", "" + response.raw());
+                    Log.i("STATUS", "" + response.isSuccess());
+                    Content random_content = contents.get(0);
+                    Intent intent = new Intent(ContentActivity.this, ContentActivity.class);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE, random_content);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                }
+
+            });
         }
         if( id == R.id.user){
             Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
