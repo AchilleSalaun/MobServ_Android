@@ -1,6 +1,7 @@
 package com.oneri;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,6 +27,8 @@ import retrofit.Retrofit;
  */
 
 public class GlobalVars extends Application {
+
+    public static Context APP_CONTEXT;
 
     public static String SAVE_RELATION_SERVLET_LIKES = "likes";
     public static String SAVE_RELATION_SERVLET_WAITING = "waiting";
@@ -59,6 +62,7 @@ public class GlobalVars extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+        APP_CONTEXT = getApplicationContext();
         CONTENT_LIST_FLAG = new ArrayList<String>();
         CONTENT_LIST_FLAG.add("Movies");
         CONTENT_LIST_FLAG.add("Books");

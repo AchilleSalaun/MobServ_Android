@@ -64,14 +64,14 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
             row.setBackgroundResource(drawableRectColor);
             ImageView itemImage = (ImageView)row.findViewById(R.id.item_image);
             TextView itemTitle = (TextView)row.findViewById(R.id.item_title);
-            TextView itemDescription = (TextView)row.findViewById(R.id.item_description);
-            TextView itemCommercialLink = (TextView)row.findViewById(R.id.item_commercialLink);
+            //TextView itemDescription = (TextView)row.findViewById(R.id.item_description);
+            //TextView itemCommercialLink = (TextView)row.findViewById(R.id.item_commercialLink);
             TextView itemCreator = (TextView)row.findViewById(R.id.item_creator);
 
             holder.itemImage = itemImage;
             holder.itemTitle = itemTitle;
-            holder.itemDescription = itemDescription;
-            holder.itemCommercialLink = itemCommercialLink;
+            //holder.itemDescription = itemDescription;
+            //holder.itemCommercialLink = itemCommercialLink;
             holder.itemCreator = itemCreator;
         } else {
             holder = (ItemHolder) row.getTag();
@@ -80,9 +80,9 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
         holder.itemTitle.setText(content.getmTitle());
         holder.itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
         holder.itemTitle.setTextSize((float)25.0);
-        holder.itemDescription.setText(""/*content.getmDescription()*/);
+        //holder.itemDescription.setText(""/*content.getmDescription()*/);
         holder.itemCreator.setText(content.getmCreator());
-        holder.itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
+        //holder.itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
         /*** L'URL est recuperee depuis la base de donnees***/
         String urlFromDB = content.getmImageURL();
         //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
@@ -105,8 +105,8 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
     {
         ImageView itemImage;
         TextView itemTitle;
-        TextView itemDescription;
-        TextView itemCommercialLink;
+        //TextView itemDescription;
+        //TextView itemCommercialLink;
         TextView itemCreator;
     }
 
