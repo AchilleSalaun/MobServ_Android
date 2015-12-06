@@ -24,23 +24,25 @@
         app:showAsAction="never" />
 
 
-
-
-
     <item
         android:id="@+id/user"
         android:orderInCategory="100"
         android:title="user"
         android:icon="@drawable/cat"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/dice"
         android:orderInCategory="10"
         android:icon="@drawable/dice2"
         android:title="dice"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
+        android:title="Search"/>
 
 
     <!--<item

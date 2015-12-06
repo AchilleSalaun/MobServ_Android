@@ -53,14 +53,6 @@ public class SimpleListViewAdapter extends ArrayAdapter<Content> {
             final TextView itemTitle = (TextView)row.findViewById(R.id.title);
             final TextView itemCreator = (TextView)row.findViewById(R.id.creator);
 
-            itemTitle.setText(content.getmTitle());
-            itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
-            //itemTitle.setTextSize((float)25.0);
-            itemCreator.setText(content.getmCreator());
-            /*** L'URL est recuperee depuis la base de donnees***/
-            String urlFromDB = content.getmImageURL();
-            Picasso.with(context).load(urlFromDB).into(itemImage);
-            /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
 
             holder.itemImage = itemImage;
             holder.itemTitle = itemTitle;
@@ -68,6 +60,17 @@ public class SimpleListViewAdapter extends ArrayAdapter<Content> {
         } else {
             holder = (ItemHolder) row.getTag();
         }
+
+
+        holder.itemTitle.setText(content.getmTitle());
+        holder.itemTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        //itemTitle.setTextSize((float)25.0);
+        holder.itemCreator.setText(content.getmCreator());
+        /*** L'URL est recuperee depuis la base de donnees***/
+        String urlFromDB = content.getmImageURL();
+        Picasso.with(context).load(urlFromDB).into(holder.itemImage);
+        /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
+
 
         row.setTag(holder);
 

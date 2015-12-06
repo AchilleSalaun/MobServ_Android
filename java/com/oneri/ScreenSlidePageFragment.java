@@ -80,8 +80,10 @@ public class ScreenSlidePageFragment extends Fragment {
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, leftItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, leftItems.get(position).getmTitle());
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
                             startActivity(intent);
                             content_activity_launched = true;
+                            onDestroyView();
                             break;
                         case 1:
                             break;
@@ -103,8 +105,11 @@ public class ScreenSlidePageFragment extends Fragment {
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, rightItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, rightItems.get(position).getmTitle());
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(position));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
                             startActivity(intent);
                             content_activity_launched = true;
+                            onDestroyView();
                             break;
                     }
                 }
@@ -168,6 +173,11 @@ public class ScreenSlidePageFragment extends Fragment {
         });
 
 
+    }
+
+    public void onDestroyView(){
+        super.onDestroyView();
+        this.content_activity_launched = false;
     }
 
     /***

@@ -31,6 +31,8 @@ public class MyContentActivity extends AppCompatActivity {
 
     public static String EXTRA_MESSAGE_CONTENT = "com.oneri.appcompatactivity(content)";
     public static String EXTRA_MESSAGE_TOOLBAR_TITLE = "com.oneri.appcompatactivity(toolbartitle)";
+    public static String EXTRA_MESSAGE_COLOR = "com.oneri.appcompatactivity(color)";
+
 
 
     public static ArrayList<String> HEADER_LIST_TAG;
@@ -53,8 +55,8 @@ public class MyContentActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         HEADER_LIST_TAG = new ArrayList<>();
-        HEADER_LIST_TAG.add("I like");
         HEADER_LIST_TAG.add("My List");
+        HEADER_LIST_TAG.add("I like");
         HEADER_LIST_TAG.add("I do not like");
 
 
@@ -154,7 +156,7 @@ public class MyContentActivity extends AppCompatActivity {
                 for (int i = 0; i < contents.size(); i = i + 1) {
                     like_list.add(contents.get(i));
                 }
-                listDataChild.put(listDataHeader.get(0), like_list);
+                listDataChild.put(listDataHeader.get(1), like_list);
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + like_list.size());
             }
@@ -182,7 +184,7 @@ public class MyContentActivity extends AppCompatActivity {
                     wish_list.add(contents.get(i));
                 }
 
-                listDataChild.put(listDataHeader.get(1), wish_list);
+                listDataChild.put(listDataHeader.get(0), wish_list);
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + wish_list.size());
             }
@@ -215,9 +217,9 @@ public class MyContentActivity extends AppCompatActivity {
                 Log.i("LEFTITEMS", "SIZE : " + do_not_like_list.size());
 
                 listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listDataChild);
-
                 // setting list adapter
                 expListView.setAdapter(listAdapter);
+                expListView.expandGroup(0);
             }
 
             @Override
@@ -266,6 +268,7 @@ public class MyContentActivity extends AppCompatActivity {
                     Intent intent = new Intent(MyContentActivity.this, ContentActivity.class);
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random Content");
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
                     startActivity(intent);
                 }
 

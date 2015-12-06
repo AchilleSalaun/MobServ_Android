@@ -41,4 +41,10 @@ public interface APIEndpointInterface {
     @POST("saveContact")
     Call<String> saveContact(@Query("email") String email);
 
+    @GET("getSearchResults")
+    Call<List<Content>> getSearchResults(@Query("request") String query);
+
+    @GET("getListContent?respType=json")
+    Call<List<Content>> getListContent();
+
 }

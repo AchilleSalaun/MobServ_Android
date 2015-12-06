@@ -34,13 +34,13 @@ public class ContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
         Intent intent = getIntent();
         content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(intent.getStringExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE));
+        toolbar.setBackgroundColor(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
         setSupportActionBar(toolbar);
-
-
 
         ImageView imageView = (ImageView) findViewById(R.id.content_image);
         String urlFromDB = content.getmImageURL();
@@ -56,10 +56,6 @@ public class ContentActivity extends AppCompatActivity {
         commercialLink.setText(content.getmCommercialLink());
         commercialLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-        /*** TO-DO
-         * Faire en sorte qu'on puisse clicker sur l'url
-         * et ainsi ouvrir le navigateur internet
-         */
 
         TextView description = (TextView) findViewById(R.id.content_description);
         description.setText(content.getmDescription());
@@ -166,7 +162,7 @@ public class ContentActivity extends AppCompatActivity {
         if( id == R.id.user){
             Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);
         }
 

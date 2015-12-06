@@ -1,5 +1,7 @@
 package com.oneri;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.oneri.Adapters.SimpleListViewAdapter;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public static String TAG_POSITION_CHOSEN = "POSITION IN THE TAB";
 
     public static String EXTRA_MESSAGE = "com.oneri.mainactivity";
+    public static String EXTRA_MESSAGE2 = "com.oneri.mainactivity2";
+
 
     private CustomViewPager mViewPager;
 
@@ -61,6 +66,46 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        // Get the SearchView and set the searchable configuration
+        //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(GlobalVars.APP_CONTEXT, "onesarchclicklistened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(GlobalVars.APP_CONTEXT, "onquerytextlistened", Toast.LENGTH_SHORT).show();
+                searchView.onActionViewCollapsed();
+                Intent intent = new Intent(MainActivity.this, SearchableActivity.class);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE2, query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchView.onActionViewCollapsed();
+                return false;
+            }
+        });
         return true;
     }
 
@@ -96,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ContentActivity.class);
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
                     startActivity(intent);
                 }
 
@@ -111,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
             Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);
+        }
+
+        if( id == R.id.action_search){
+
+            
         }
 
         return super.onOptionsItemSelected(item);
