@@ -8,9 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.oneri.Adapters.SimpleListViewAdapter;
 import com.oneri.Model.Content;
@@ -59,7 +63,7 @@ public class SearchableActivity extends AppCompatActivity {
     }
 
     public void doMySearch(String query){
-        Call<List<Content>> call_get_search_result =  GlobalVars.apiService.getListContent();
+        Call<List<Content>> call_get_search_result =  GlobalVars.apiService.getSearchResults(query);
         call_get_search_result.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -86,6 +90,64 @@ public class SearchableActivity extends AppCompatActivity {
                 Log.i("ONFAILURE", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if( id == R.id.dice){
+            Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+
+            call_random_content.enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
+                    int statusCode = response.code();
+                    List<Content> contents = response.body();
+                    Log.i("STATUS", "" + response.message());
+                    Log.i("STATUS", "" + statusCode);
+                    Log.i("STATUS", "" + response.toString());
+                    Log.i("STATUS", "" + response.raw());
+                    Log.i("STATUS", "" + response.isSuccess());
+                    Content random_content = contents.get(0);
+                    Intent intent = new Intent(SearchableActivity.this, ContentActivity.class);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random Content");
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
+        }
+        if( id == R.id.user){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
+            /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

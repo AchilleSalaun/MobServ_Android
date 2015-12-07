@@ -59,4 +59,9 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
 
     }
 
+    public void forceCrash(View view) {
+        throw new RuntimeException("This is a crash");
+    }
+
+
 }

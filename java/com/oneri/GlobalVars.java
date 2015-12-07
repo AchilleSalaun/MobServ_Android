@@ -3,10 +3,12 @@ package com.oneri;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oneri.API.APIEndpointInterface;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 
 import retrofit.GsonConverterFactory;
@@ -28,11 +30,13 @@ import retrofit.Retrofit;
 
 public class GlobalVars extends Application {
 
+    public static boolean DEBUG_TOAST = false;
+
     public static Context APP_CONTEXT;
 
-    public static String SAVE_RELATION_SERVLET_LIKES = "likes";
-    public static String SAVE_RELATION_SERVLET_WAITING = "waiting";
-    public static String SAVE_RELATION_SERVLET_DOESNT_LIKE = "doesn't like";
+    public static final String SAVE_RELATION_SERVLET_LIKES = "likes";
+    public static final String SAVE_RELATION_SERVLET_WAITING = "waiting";
+    public static final String SAVE_RELATION_SERVLET_DOESNT_LIKE = "doesn't like";
 
     public static String EMAIL_CURRENT_USER = "kevin@gmail.com";
 
@@ -62,6 +66,7 @@ public class GlobalVars extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         APP_CONTEXT = getApplicationContext();
         CONTENT_LIST_FLAG = new ArrayList<String>();
         CONTENT_LIST_FLAG.add("Movies");

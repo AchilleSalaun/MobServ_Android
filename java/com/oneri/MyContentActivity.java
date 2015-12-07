@@ -279,7 +279,7 @@ public class MyContentActivity extends AppCompatActivity {
             });
         }
         if( id == R.id.user){
-            Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

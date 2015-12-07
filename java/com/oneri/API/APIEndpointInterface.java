@@ -47,4 +47,8 @@ public interface APIEndpointInterface {
     @GET("getListContent?respType=json")
     Call<List<Content>> getListContent();
 
+    @GET("getRelation")
+    Call<String> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
+
+
 }

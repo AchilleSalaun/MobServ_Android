@@ -18,6 +18,7 @@ import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.squareup.picasso.Picasso;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import retrofit.Call;
@@ -29,11 +30,21 @@ public class ContentActivity extends AppCompatActivity {
 
     private Content content;
     private Relation relation;
+    private ImageView content_relation_likes_imageview;
+    private ImageView content_relation_wishes_imageview;
+    private ImageView content_relation_do_not_like_imageview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
+        content_relation_likes_imageview = (ImageView) findViewById(R.id.content_relation_likes);
+        content_relation_wishes_imageview = (ImageView) findViewById(R.id.content_relation_wishes);
+        content_relation_do_not_like_imageview = (ImageView) findViewById(R.id.content_relation_do_not_like);
+
+
 
         Intent intent = getIntent();
         content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT);
@@ -41,6 +52,37 @@ public class ContentActivity extends AppCompatActivity {
         toolbar.setTitle(intent.getStringExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE));
         toolbar.setBackgroundColor(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
         setSupportActionBar(toolbar);
+
+        Call<String> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
+                        content.getmTitle(), content.getmContentType());
+
+        call_get_relation.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Response<String> response, Retrofit retrofit) {
+                String relation = response.body();
+
+                Log.i("GETRELATION", relation);
+
+                switch (relation){
+                    case GlobalVars.SAVE_RELATION_SERVLET_LIKES:
+                        content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                        break;
+                    case GlobalVars.SAVE_RELATION_SERVLET_WAITING:
+                        content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
+                        break;
+                    case GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE:
+                        content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+                Log.i("ONFAILUREGETRELATION", t.getMessage());
+
+            }
+        });
 
         ImageView imageView = (ImageView) findViewById(R.id.content_image);
         String urlFromDB = content.getmImageURL();
@@ -74,17 +116,26 @@ public class ContentActivity extends AppCompatActivity {
         switch (id){
             case R.id.content_relation_likes:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_LIKES);
-                Toast.makeText(this, "LIKES", Toast.LENGTH_SHORT).show();
+                content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
+                content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "LIKES", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.content_relation_wishes:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_WAITING);
-                Toast.makeText(this, "WAITING", Toast.LENGTH_SHORT).show();
+                content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
+                content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
+                content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "WAITING", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.content_relation_do_not_like:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE);
-                Toast.makeText(this, "DOESN'T LIKE", Toast.LENGTH_SHORT).show();
+                content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
+                content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
+                content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "DOESN'T LIKE", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -133,7 +184,7 @@ public class ContentActivity extends AppCompatActivity {
         }
 
         if( id == R.id.dice){
-            Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
             Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
 
             call_random_content.enqueue(new Callback<List<Content>>() {
@@ -160,7 +211,7 @@ public class ContentActivity extends AppCompatActivity {
             });
         }
         if( id == R.id.user){
-            Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
             Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);

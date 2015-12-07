@@ -78,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(GlobalVars.APP_CONTEXT, "onesarchclicklistened", Toast.LENGTH_SHORT).show();
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onesarchclicklistened", Toast.LENGTH_SHORT).show();
             }
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(GlobalVars.APP_CONTEXT, "onquerytextlistened", Toast.LENGTH_SHORT).show();
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onquerytextlistened", Toast.LENGTH_SHORT).show();
                 searchView.onActionViewCollapsed();
                 Intent intent = new Intent(MainActivity.this, SearchableActivity.class);
                 intent.putExtra(MainActivity.EXTRA_MESSAGE2, query);
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
         }*/
         if( id == R.id.dice){
-            Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
             Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
 
             call_random_content.enqueue(new Callback<List<Content>>() {
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if( id == R.id.user){
-            Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST) Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
             Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);

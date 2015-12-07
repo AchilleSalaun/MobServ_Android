@@ -76,7 +76,7 @@ public class ScreenSlidePageFragment extends Fragment {
                     Intent intent;
                     switch (last_clicked) {
                         case 0:
-                            Toast.makeText(GlobalVars.APP_CONTEXT, "Left Position : " + position, Toast.LENGTH_SHORT).show();
+                            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "Left Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, leftItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, leftItems.get(position).getmTitle());
@@ -101,7 +101,7 @@ public class ScreenSlidePageFragment extends Fragment {
                         case 0:
                             break;
                         case 1:
-                            Toast.makeText(GlobalVars.APP_CONTEXT, "Right Position : " + position, Toast.LENGTH_SHORT).show();
+                            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "Right Position : " + position, Toast.LENGTH_SHORT).show();
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, rightItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, rightItems.get(position).getmTitle());
