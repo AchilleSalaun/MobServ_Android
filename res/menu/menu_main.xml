@@ -3,34 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/user"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_1"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_2"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_3"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="MyList"
         app:showAsAction="never" />
 
-
     <item
+        android:id="@+id/recommendations"
+        android:orderInCategory="200"
+        android:title="Recommendations"
+        app:showAsAction="never"/>
+
+
+    <!--<item
         android:id="@+id/user"
         android:orderInCategory="100"
         android:title="user"
         android:icon="@drawable/cat"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
+    <!-- Dice -->
     <item
         android:id="@+id/dice"
         android:orderInCategory="10"
@@ -38,6 +30,7 @@
         android:title="dice"
         app:showAsAction="always" />
 
+    <!-- Search Bar -->
     <item
         android:id="@+id/action_search"
         app:showAsAction="always"

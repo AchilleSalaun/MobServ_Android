@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -18,6 +20,7 @@ import retrofit.Retrofit;
 public class VerySimpleLoginActivity extends AppCompatActivity {
 
     private EditText emailTv;
+    private Switch switch_achille;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,16 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
         toolbar.setTitle("Login");
         setSupportActionBar(toolbar);
         emailTv = (EditText) findViewById(R.id.email);
+        switch_achille = (Switch) findViewById(R.id.switch_achille);
+        switch_achille.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    GlobalVars.SERVLET_ACHILLE_CHECKED = true;
+                else
+                    GlobalVars.SERVLET_ACHILLE_CHECKED = false;
+            }
+        });
     }
 
     public void signIn(View v){
@@ -36,32 +49,25 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
                 int statusCode = response.code();
-
                 Log.i("STATUS", "" + response.message());
                 Log.i("STATUS", "" + statusCode);
                 Log.i("STATUS", "" + response.toString());
                 Log.i("STATUS", "" + response.raw());
                 Log.i("STATUS", "" + response.isSuccess());
-
                 Intent intent = new Intent(VerySimpleLoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure(Throwable t) {
-
                 Log.i("FAIL", t.getMessage());
                 Intent intent = new Intent(VerySimpleLoginActivity.this, MainActivity.class);
                 startActivity(intent);
-
             }
         });
 
     }
 
-    public void forceCrash(View view) {
-        throw new RuntimeException("This is a crash");
-    }
 
 
 }

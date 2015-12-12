@@ -2,15 +2,19 @@ package com.oneri;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oneri.API.APIEndpointInterface;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import io.fabric.sdk.android.Fabric;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -29,6 +33,15 @@ import retrofit.Retrofit;
  */
 
 public class GlobalVars extends Application {
+
+    public static boolean SERVLET_ACHILLE_CHECKED;
+
+    public static HashMap<String, Integer> CONTENTTYPE_TO_COLOR;
+
+    public static Integer SEARCH_BAR_WIDTH;
+
+    public static Integer SCREEN_WIDTH;
+    public static Integer SCREEN_HEIGHT;
 
     public static boolean DEBUG_TOAST = false;
 
@@ -66,8 +79,31 @@ public class GlobalVars extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+
         Fabric.with(this, new Crashlytics());
+
+
+
+        SERVLET_ACHILLE_CHECKED = false;
+
+
         APP_CONTEXT = getApplicationContext();
+
+        WindowManager wm = (WindowManager) APP_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        SCREEN_WIDTH = width;
+        SCREEN_HEIGHT = height;
+
+        SEARCH_BAR_WIDTH = SCREEN_WIDTH * 2/3;
+
+
+
+
         CONTENT_LIST_FLAG = new ArrayList<String>();
         CONTENT_LIST_FLAG.add("Movies");
         CONTENT_LIST_FLAG.add("Books");
@@ -96,5 +132,13 @@ public class GlobalVars extends Application {
         CONTENT_LIST_FLAG_COLOR.add(R.color.comicColor);
         CONTENT_LIST_FLAG_COLOR.add(R.color.tvshowColor);
         CONTENT_LIST_FLAG_COLOR.add(R.color.musicColor);
+
+        CONTENTTYPE_TO_COLOR = new HashMap<>(6);
+        CONTENTTYPE_TO_COLOR.put("movie", CONTENT_LIST_FLAG_COLOR.get(0));
+        CONTENTTYPE_TO_COLOR.put("book", CONTENT_LIST_FLAG_COLOR.get(1));
+        CONTENTTYPE_TO_COLOR.put("video game", CONTENT_LIST_FLAG_COLOR.get(2));
+        CONTENTTYPE_TO_COLOR.put("comic", CONTENT_LIST_FLAG_COLOR.get(3));
+        CONTENTTYPE_TO_COLOR.put("series", CONTENT_LIST_FLAG_COLOR.get(4));
+        CONTENTTYPE_TO_COLOR.put("music", CONTENT_LIST_FLAG_COLOR.get(5));
     }
 }

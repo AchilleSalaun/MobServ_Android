@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.oneri.Adapters.SimpleListViewAdapter;
@@ -80,6 +81,7 @@ public class SearchableActivity extends AppCompatActivity {
                     searchedContents.add(contents.get(i));
                 }
 
+
                 searchedListView.setAdapter(new SimpleListViewAdapter(GlobalVars.APP_CONTEXT, R.layout.my_content_list_item, searchedContents));
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + searchedContents.size());
@@ -97,8 +99,51 @@ public class SearchableActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        // Get the SearchView and set the searchable configuration
+        //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+
+        searchView.setMaxWidth(GlobalVars.SEARCH_BAR_WIDTH);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onesarchclicklistened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onquerytextlistened", Toast.LENGTH_SHORT).show();
+                searchView.onActionViewCollapsed();
+                Intent intent = new Intent(SearchableActivity.this, SearchableActivity.class);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE2, query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchView.onActionViewCollapsed();
+                return false;
+            }
+        });
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,10 +152,7 @@ public class SearchableActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         if( id == R.id.dice){
             Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
@@ -130,7 +172,7 @@ public class SearchableActivity extends AppCompatActivity {
                     Intent intent = new Intent(SearchableActivity.this, ContentActivity.class);
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random Content");
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(random_content.getmContentType()));
                     startActivity(intent);
                 }
 
@@ -143,6 +185,12 @@ public class SearchableActivity extends AppCompatActivity {
         if( id == R.id.user){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.recommendations){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

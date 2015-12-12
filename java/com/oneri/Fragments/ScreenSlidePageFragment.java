@@ -1,4 +1,4 @@
-package com.oneri;
+package com.oneri.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.oneri.Adapters.ItemsAdapter;
+import com.oneri.ContentActivity;
+import com.oneri.GlobalVars;
+import com.oneri.MainActivity;
 import com.oneri.Model.Content;
+import com.oneri.MyContentActivity;
+import com.oneri.R;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -30,7 +35,6 @@ import retrofit.Retrofit;
  */
 
 public class ScreenSlidePageFragment extends Fragment {
-
 
     private Integer last_clicked;
     private boolean content_activity_launched;
@@ -80,7 +84,7 @@ public class ScreenSlidePageFragment extends Fragment {
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, leftItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, leftItems.get(position).getmTitle());
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(leftItems.get(position).getmContentType()));
                             startActivity(intent);
                             content_activity_launched = true;
                             onDestroyView();
@@ -105,8 +109,7 @@ public class ScreenSlidePageFragment extends Fragment {
                             intent = new Intent(GlobalVars.APP_CONTEXT, ContentActivity.class);
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, rightItems.get(position));
                             intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, rightItems.get(position).getmTitle());
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(position));
-                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                            intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(rightItems.get(position).getmContentType()));
                             startActivity(intent);
                             content_activity_launched = true;
                             onDestroyView();
@@ -119,7 +122,11 @@ public class ScreenSlidePageFragment extends Fragment {
     }
 
     private void loadItems() {
+
         Call<List<Content>> call = GlobalVars.apiService.getContents(GlobalVars.EMAIL_CURRENT_USER, /*URLEncoder.encode(*/GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(position_in_the_tab)/*)*/);
+        if(GlobalVars.SERVLET_ACHILLE_CHECKED)
+            call = GlobalVars.apiService.test(GlobalVars.EMAIL_CURRENT_USER, /*URLEncoder.encode(*/GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(position_in_the_tab)/*)*/);
+
         call.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {

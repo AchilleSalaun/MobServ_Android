@@ -1,7 +1,5 @@
 package com.oneri;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,11 +15,10 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.oneri.Adapters.SimpleListViewAdapter;
+import com.oneri.Fragments.ScreenSlidePageFragment;
 import com.oneri.Model.Content;
 import com.oneri.SlidingTabs.SlidingTabLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -74,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
         //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
+
+
+        searchView.setMaxWidth(GlobalVars.SEARCH_BAR_WIDTH);
+
         searchView.setOnSearchClickListener(new View.OnClickListener() {
 
             @Override
@@ -116,10 +117,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         /*if( id == R.id.search){
             Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
         }*/
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ContentActivity.class);
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(random_content.getmContentType()));
                     startActivity(intent);
                 }
 
@@ -159,13 +157,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        if( id == R.id.action_search){
-
-            
+        if( id == R.id.recommendations){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -193,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        //DO NOTHING, DO NOT RETURN BACK TO THE LOGIN ACTIVITY !
+    }
 
 
 }

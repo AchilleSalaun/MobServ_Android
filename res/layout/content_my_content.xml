@@ -3,11 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#f4f4f4" >
+    android:background="@color/white">
 
     <ExpandableListView
         android:id="@+id/lvExp"
-        android:background="@color/transparent"
+        android:background="@color/white"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 

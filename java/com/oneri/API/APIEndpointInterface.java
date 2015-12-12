@@ -2,6 +2,7 @@ package com.oneri.API;
 
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
+import com.oneri.Model.SimpleRelation;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface APIEndpointInterface {
     @GET("getRecommendations?")
     Call<List<Content>> getContents(@Query("email") String email, @Query("contentType") String content);
 
+    @GET("test?")
+    Call<List<Content>> test(@Query("email") String email, @Query("contentType") String content);
+
     @GET("getLikedContent?")
     Call<List<Content>> getLikedContents(@Query("email") String email);
 
@@ -30,9 +34,6 @@ public interface APIEndpointInterface {
 
     @GET("getRandomContent?")
     Call<List<Content>> getRandomContent();
-
-    /*@POST("saveRelation?")
-    Call<Relation> saveRelation(@Body Relation relation);*/
 
     @POST("saveRelation?")
     Call<Relation> saveRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType,
@@ -48,7 +49,6 @@ public interface APIEndpointInterface {
     Call<List<Content>> getListContent();
 
     @GET("getRelation")
-    Call<String> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
-
+    Call<SimpleRelation> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
 
 }

@@ -11,11 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
+import com.oneri.Model.SimpleRelation;
 import com.squareup.picasso.Picasso;
 
 import java.net.URLEncoder;
@@ -33,6 +35,9 @@ public class ContentActivity extends AppCompatActivity {
     private ImageView content_relation_likes_imageview;
     private ImageView content_relation_wishes_imageview;
     private ImageView content_relation_do_not_like_imageview;
+    private boolean likes_selected;
+    private boolean wishes_selected;
+    private boolean do_not_like_selected;
 
 
     @Override
@@ -45,42 +50,41 @@ public class ContentActivity extends AppCompatActivity {
         content_relation_do_not_like_imageview = (ImageView) findViewById(R.id.content_relation_do_not_like);
 
 
-
         Intent intent = getIntent();
         content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(intent.getStringExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE));
-        toolbar.setBackgroundColor(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
+        toolbar.setBackgroundResource(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
         setSupportActionBar(toolbar);
 
-        Call<String> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
+        Call<SimpleRelation> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
                         content.getmTitle(), content.getmContentType());
-
-        call_get_relation.enqueue(new Callback<String>() {
+        call_get_relation.enqueue(new Callback<SimpleRelation>() {
             @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
-                String relation = response.body();
+            public void onResponse(Response<SimpleRelation> response, Retrofit retrofit) {
+                SimpleRelation relation = response.body();
 
-                Log.i("GETRELATION", relation);
+                Log.i("OnResponse", "getRelation : " + relation.getRelationType());
 
-                switch (relation){
+                switch (relation.getRelationType()){
                     case GlobalVars.SAVE_RELATION_SERVLET_LIKES:
                         content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                        likes_selected = true;
                         break;
                     case GlobalVars.SAVE_RELATION_SERVLET_WAITING:
                         content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
+                        wishes_selected = true;
                         break;
                     case GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE:
                         content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
+                        do_not_like_selected = true;
                         break;
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
-                Log.i("ONFAILUREGETRELATION", t.getMessage());
-
+                Log.i("OnFailure", "getRelation : " + t.getMessage());
             }
         });
 
@@ -97,7 +101,6 @@ public class ContentActivity extends AppCompatActivity {
         TextView commercialLink = (TextView) findViewById(R.id.content_commercialLink);
         commercialLink.setText(content.getmCommercialLink());
         commercialLink.setMovementMethod(LinkMovementMethod.getInstance());
-
 
         TextView description = (TextView) findViewById(R.id.content_description);
         description.setText(content.getmDescription());
@@ -116,7 +119,14 @@ public class ContentActivity extends AppCompatActivity {
         switch (id){
             case R.id.content_relation_likes:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_LIKES);
-                content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                if(likes_selected) {
+                    content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
+                    likes_selected = false;
+                }
+                else {
+                    content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                    likes_selected = true;
+                }
                 content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
                 content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
                 if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "LIKES", Toast.LENGTH_SHORT).show();
@@ -124,17 +134,31 @@ public class ContentActivity extends AppCompatActivity {
 
             case R.id.content_relation_wishes:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_WAITING);
+                if(wishes_selected){
+                    content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
+                    wishes_selected = false;
+                }
+                else{
+                    content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
+                    wishes_selected = true;
+                }
                 content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
-                content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
                 content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
                 if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "WAITING", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.content_relation_do_not_like:
                 relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE);
+                if(do_not_like_selected){
+                    do_not_like_selected = false;
+                    content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
+                }
+                else{
+                    do_not_like_selected = true;
+                    content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
+                }
                 content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
                 content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
-                content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
                 if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "DOESN'T LIKE", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -156,7 +180,7 @@ public class ContentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i("FAIL", t.getMessage());
+                Log.i("onFailure", t.getMessage());
 
 
             }
@@ -168,8 +192,51 @@ public class ContentActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        // Get the SearchView and set the searchable configuration
+        //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+
+        searchView.setMaxWidth(GlobalVars.SEARCH_BAR_WIDTH);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onesarchclicklistened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, "onquerytextlistened", Toast.LENGTH_SHORT).show();
+                searchView.onActionViewCollapsed();
+                Intent intent = new Intent(ContentActivity.this, SearchableActivity.class);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE2, query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchView.onActionViewCollapsed();
+                return false;
+            }
+        });
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,10 +245,6 @@ public class ContentActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if( id == R.id.dice){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
@@ -201,6 +264,8 @@ public class ContentActivity extends AppCompatActivity {
                     Intent intent = new Intent(ContentActivity.this, ContentActivity.class);
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
                     intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
+                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(random_content.getmContentType()));
+
                     startActivity(intent);
                 }
 
@@ -217,9 +282,20 @@ public class ContentActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        if( id == R.id.recommendations){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(ContentActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }
