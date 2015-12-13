@@ -1,10 +1,8 @@
 package com.oneri;
 
-import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 
 import com.oneri.Adapters.SimpleListViewAdapter;
 import com.oneri.Model.Content;
+import com.oneri.Others.GlobalVars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,12 @@ public class SearchableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Search");
+
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        String query = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
+
+        toolbar.setTitle(query);
         setSupportActionBar(toolbar);
 
         searchedListView = (ListView) findViewById(R.id.searched_list_view);
@@ -50,14 +54,12 @@ public class SearchableActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
                 intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, searchedContents.get(position));
                 intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, searchedContents.get(position).getmTitle());
-                intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENT_LIST_FLAG_COLOR.get(2));
+                intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(searchedContents.get(position).getmContentType()));
                 startActivity(intent);
             }
         });
 
-        // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
-        String query = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
+
         doMySearch(query);
 
 
@@ -156,7 +158,7 @@ public class SearchableActivity extends AppCompatActivity {
 
         if( id == R.id.dice){
             Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
-            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent(GlobalVars.EMAIL_CURRENT_USER);
 
             call_random_content.enqueue(new Callback<List<Content>>() {
                 @Override
@@ -192,6 +194,19 @@ public class SearchableActivity extends AppCompatActivity {
         if( id == R.id.recommendations){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.logout){
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
             startActivity(intent);
         }
 

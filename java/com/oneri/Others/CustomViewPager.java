@@ -1,4 +1,4 @@
-package com.oneri;
+package com.oneri.Others;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

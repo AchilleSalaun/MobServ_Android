@@ -5,13 +5,19 @@
     <item
         android:id="@+id/user"
         android:orderInCategory="100"
-        android:title="MyList"
+        android:title="My List"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/recommendations"
         android:orderInCategory="200"
         android:title="Recommendations"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="300"
+        android:title="Log out"
         app:showAsAction="never"/>
 
 

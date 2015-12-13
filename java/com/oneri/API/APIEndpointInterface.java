@@ -33,7 +33,7 @@ public interface APIEndpointInterface {
     Call<List<Content>> getMyContents(@Query("email") String email, @Query("type") String type);
 
     @GET("getRandomContent?")
-    Call<List<Content>> getRandomContent();
+    Call<List<Content>> getRandomContent(@Query("email") String email);
 
     @POST("saveRelation?")
     Call<Relation> saveRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType,
@@ -49,6 +49,6 @@ public interface APIEndpointInterface {
     Call<List<Content>> getListContent();
 
     @GET("getRelation")
-    Call<SimpleRelation> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
+    Call<List<SimpleRelation>> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
 
 }

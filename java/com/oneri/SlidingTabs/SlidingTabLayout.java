@@ -14,7 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.oneri.MainActivity;
-import com.oneri.GlobalVars;
+import com.oneri.Others.GlobalVars;
 
 /**
  * Created by quentinleroy on 26/11/15.

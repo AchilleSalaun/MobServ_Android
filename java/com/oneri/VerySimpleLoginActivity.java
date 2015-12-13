@@ -1,9 +1,9 @@
 package com.oneri;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,12 +12,15 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.oneri.Others.GlobalVars;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
 public class VerySimpleLoginActivity extends AppCompatActivity {
+
 
     private EditText emailTv;
     private Switch switch_achille;
@@ -26,6 +29,7 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_very_simple_login);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Login");
         setSupportActionBar(toolbar);
@@ -43,7 +47,14 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
     }
 
     public void signIn(View v){
-        GlobalVars.EMAIL_CURRENT_USER = (String) emailTv.getText().toString();
+
+        SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+        edit.putString("email", emailTv.getText().toString());
+        edit.commit();
+
+        GlobalVars.EMAIL_CURRENT_USER = GlobalVars.PREFERENCES.getString("email", "kevin@gmail.com");
+
+
         Call<String> call_save_contact = GlobalVars.apiService.saveContact(GlobalVars.EMAIL_CURRENT_USER);
         call_save_contact.enqueue(new Callback<String>() {
             @Override

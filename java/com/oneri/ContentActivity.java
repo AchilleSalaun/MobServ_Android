@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.oneri.Model.SimpleRelation;
+import com.oneri.Others.GlobalVars;
 import com.squareup.picasso.Picasso;
 
-import java.net.URLEncoder;
 import java.util.List;
 
 import retrofit.Call;
@@ -57,12 +57,12 @@ public class ContentActivity extends AppCompatActivity {
         toolbar.setBackgroundResource(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
         setSupportActionBar(toolbar);
 
-        Call<SimpleRelation> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
+        Call<List<SimpleRelation>> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
                         content.getmTitle(), content.getmContentType());
-        call_get_relation.enqueue(new Callback<SimpleRelation>() {
+        call_get_relation.enqueue(new Callback<List<SimpleRelation>>() {
             @Override
-            public void onResponse(Response<SimpleRelation> response, Retrofit retrofit) {
-                SimpleRelation relation = response.body();
+            public void onResponse(Response<List<SimpleRelation>> response, Retrofit retrofit) {
+                SimpleRelation relation = response.body().get(0);
 
                 Log.i("OnResponse", "getRelation : " + relation.getRelationType());
 
@@ -105,13 +105,11 @@ public class ContentActivity extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.content_description);
         description.setText(content.getmDescription());
 
-
         relation = new Relation();
         relation.setmEmail(GlobalVars.EMAIL_CURRENT_USER);
         relation.setmTitle(content.getmTitle());
         relation.setmContentType(content.getmContentType());
         relation.setmComment("AUCUN COMMENTAIRE DANS LA V1");
-
     }
 
     public void saveRelation(View v){
@@ -237,7 +235,6 @@ public class ContentActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -248,7 +245,7 @@ public class ContentActivity extends AppCompatActivity {
 
         if( id == R.id.dice){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
-            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent(GlobalVars.EMAIL_CURRENT_USER);
 
             call_random_content.enqueue(new Callback<List<Content>>() {
                 @Override
@@ -290,7 +287,6 @@ public class ContentActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onBackPressed(){

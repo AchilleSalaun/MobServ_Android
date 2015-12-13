@@ -1,9 +1,8 @@
 package com.oneri;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.oneri.Adapters.ExpandableListAdapter;
 import com.oneri.Model.Content;
-import com.oneri.R;
+import com.oneri.Others.GlobalVars;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +51,7 @@ public class MyContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundResource(R.color.colorPrimaryDark);
         toolbar.setTitle("My Content");
         setSupportActionBar(toolbar);
 
@@ -70,7 +70,7 @@ public class MyContentActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Toast.makeText(
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(
                         getApplicationContext(),
                         listDataHeader.get(groupPosition)
                                 + " : "
@@ -100,7 +100,7 @@ public class MyContentActivity extends AppCompatActivity {
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(getApplicationContext(),
                         listDataHeader.get(groupPosition) + " Expanded",
                         Toast.LENGTH_SHORT).show();
             }
@@ -111,7 +111,7 @@ public class MyContentActivity extends AppCompatActivity {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
+                if(GlobalVars.DEBUG_TOAST)Toast.makeText(getApplicationContext(),
                         listDataHeader.get(groupPosition) + " Collapsed",
                         Toast.LENGTH_SHORT).show();
 
@@ -298,8 +298,8 @@ public class MyContentActivity extends AppCompatActivity {
 
 
         if( id == R.id.dice){
-            Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
-            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent(GlobalVars.EMAIL_CURRENT_USER);
 
             call_random_content.enqueue(new Callback<List<Content>>() {
                 @Override
@@ -338,6 +338,19 @@ public class MyContentActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        if( id == R.id.logout){
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -346,10 +359,6 @@ public class MyContentActivity extends AppCompatActivity {
      * OnResume : Recharger entierement tout
      */
 
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(MyContentActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
+
 
 }

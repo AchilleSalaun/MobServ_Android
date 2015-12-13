@@ -15,13 +15,12 @@ import android.widget.Toast;
 
 import com.oneri.Adapters.ItemsAdapter;
 import com.oneri.ContentActivity;
-import com.oneri.GlobalVars;
+import com.oneri.Others.GlobalVars;
 import com.oneri.MainActivity;
 import com.oneri.Model.Content;
 import com.oneri.MyContentActivity;
 import com.oneri.R;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

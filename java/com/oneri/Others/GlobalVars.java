@@ -1,8 +1,10 @@
-package com.oneri;
+package com.oneri.Others;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -10,6 +12,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oneri.API.APIEndpointInterface;
+import com.oneri.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,8 @@ import retrofit.Retrofit;
  */
 
 public class GlobalVars extends Application {
+
+    public static SharedPreferences PREFERENCES;
 
     public static boolean SERVLET_ACHILLE_CHECKED;
 
@@ -82,6 +87,7 @@ public class GlobalVars extends Application {
 
         Fabric.with(this, new Crashlytics());
 
+        PREFERENCES = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         SERVLET_ACHILLE_CHECKED = false;

@@ -1,6 +1,7 @@
 package com.oneri;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.oneri.Fragments.ScreenSlidePageFragment;
 import com.oneri.Model.Content;
+import com.oneri.Others.CustomViewPager;
+import com.oneri.Others.GlobalVars;
 import com.oneri.SlidingTabs.SlidingTabLayout;
 
 import java.util.List;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static String EXTRA_MESSAGE = "com.oneri.mainactivity";
     public static String EXTRA_MESSAGE2 = "com.oneri.mainactivity2";
-
 
     private CustomViewPager mViewPager;
 
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
         if( id == R.id.dice){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
-            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent();
+            Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent(GlobalVars.EMAIL_CURRENT_USER);
 
             call_random_content.enqueue(new Callback<List<Content>>() {
                 @Override
@@ -135,12 +137,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("STATUS", "" + response.toString());
                     Log.i("STATUS", "" + response.raw());
                     Log.i("STATUS", "" + response.isSuccess());
-                    Content random_content = contents.get(0);
-                    Intent intent = new Intent(MainActivity.this, ContentActivity.class);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
-                    intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(random_content.getmContentType()));
-                    startActivity(intent);
+                    if(contents.size()!=0) {
+                        Content random_content = contents.get(0);
+                        Intent intent = new Intent(MainActivity.this, ContentActivity.class);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE_TOOLBAR_TITLE, "Random");
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT, random_content);
+                        intent.putExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, GlobalVars.CONTENTTYPE_TO_COLOR.get(random_content.getmContentType()));
+                        startActivity(intent);
+                    }
                 }
 
                 @Override
@@ -160,6 +164,14 @@ public class MainActivity extends AppCompatActivity {
         if( id == R.id.recommendations){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
             startActivity(intent);
         }
 
@@ -197,6 +209,5 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         //DO NOTHING, DO NOT RETURN BACK TO THE LOGIN ACTIVITY !
     }
-
 
 }
