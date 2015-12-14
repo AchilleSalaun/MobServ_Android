@@ -188,7 +188,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
     /***
      * Quand on clicke sur la liste de gauche (respectivement de droite), on dispatch le
-     * click event surla liste de droite (respectivement de gauche)pour lui faire croire
+     * click event sur la liste de droite (respectivement de gauche)pour lui faire croire
      * qu'on appuie sur les deux, et ainsi les deux listes scrollent
      * même si en fait on en scrolle qu'une sur les deux avec le doigt
      */

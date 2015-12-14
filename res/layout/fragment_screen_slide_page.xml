@@ -18,7 +18,9 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:scrollbars="none"
-        android:dividerHeight="10dp">
+        android:dividerHeight="10dp"
+        android:divider="@color/white"
+        >
     </ListView>
 
     <!--Rigth List View-->
@@ -33,7 +35,8 @@
         android:paddingLeft="5dp"
         android:paddingRight="10dp"
         android:scrollbars="none"
-        android:dividerHeight="10dp">
+        android:dividerHeight="10dp"
+        android:divider="@color/white">
     </ListView>
 
 </LinearLayout>

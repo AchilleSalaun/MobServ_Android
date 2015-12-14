@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager = (CustomViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                MainActivity.toolbar.setBackgroundResource(GlobalVars.CONTENT_LIST_FLAG_COLOR.get(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         //mViewPager.setPagingEnabled(false);
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
@@ -203,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return GlobalVars.CONTENT_LIST_FLAG.size();
         }
+
+
     }
 
     @Override

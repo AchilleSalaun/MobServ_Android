@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.oneri.ContentActivity"
     tools:showIn="@layout/activity_content"
-    android:id="@+id/content_content_relative_layout">
+    android:id="@+id/content_content_relative_layout"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/upper_content_layout"

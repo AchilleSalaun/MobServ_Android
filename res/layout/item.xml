@@ -21,6 +21,7 @@
 
         <TextView
             android:id="@+id/item_title"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -36,6 +37,7 @@
 
         <TextView
             android:id="@+id/item_creator"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
