@@ -29,11 +29,11 @@ import retrofit.Retrofit;
 
 public class MyContentActivity extends AppCompatActivity {
 
+    private boolean onResponseChecked[] = {false, false, false};
+
     public static String EXTRA_MESSAGE_CONTENT = "com.oneri.appcompatactivity(content)";
     public static String EXTRA_MESSAGE_TOOLBAR_TITLE = "com.oneri.appcompatactivity(toolbartitle)";
     public static String EXTRA_MESSAGE_COLOR = "com.oneri.appcompatactivity(color)";
-
-
 
     public static ArrayList<String> HEADER_LIST_TAG;
 
@@ -143,9 +143,10 @@ public class MyContentActivity extends AppCompatActivity {
 
     private void loadItems(){
         Call<List<Content>> call_liked_content = GlobalVars.apiService.getLikedContents(GlobalVars.EMAIL_CURRENT_USER );
-        Call<List<Content>> call_wish_content = GlobalVars.apiService.getMyContents(GlobalVars.EMAIL_CURRENT_USER, "myList");
-        Call<List<Content>> call_do_not_liked_content = GlobalVars.apiService.getMyContents(GlobalVars.EMAIL_CURRENT_USER, "contentUserDoesntLike");
+        final Call<List<Content>> call_wish_content = GlobalVars.apiService.getMyContents(GlobalVars.EMAIL_CURRENT_USER, "myList");
+        final Call<List<Content>> call_do_not_liked_content = GlobalVars.apiService.getMyContents(GlobalVars.EMAIL_CURRENT_USER, "contentUserDoesntLike");
 
+        /*** Get Liked Contents ***/
         call_liked_content.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -165,6 +166,16 @@ public class MyContentActivity extends AppCompatActivity {
                 listDataChild.put(listDataHeader.get(1), like_list);
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + like_list.size());
+
+
+                onResponseChecked[0] = true;
+
+                if(checkOnResponse(onResponseChecked)) {
+                    listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listDataChild);
+                    // setting list adapter
+                    expListView.setAdapter(listAdapter);
+                    expListView.expandGroup(0);
+                }
             }
 
             @Override
@@ -172,6 +183,7 @@ public class MyContentActivity extends AppCompatActivity {
 
             }
         });
+        /*** Get Wish Contents ***/
         call_wish_content.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -193,6 +205,15 @@ public class MyContentActivity extends AppCompatActivity {
                 listDataChild.put(listDataHeader.get(0), wish_list);
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + wish_list.size());
+
+                onResponseChecked[1] = true;
+
+                if(checkOnResponse(onResponseChecked)) {
+                    listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listDataChild);
+                    // setting list adapter
+                    expListView.setAdapter(listAdapter);
+                    expListView.expandGroup(0);
+                }
             }
 
             @Override
@@ -200,6 +221,7 @@ public class MyContentActivity extends AppCompatActivity {
 
             }
         });
+        /*** Get Do Not Liked Contents ***/
         call_do_not_liked_content.enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -222,10 +244,14 @@ public class MyContentActivity extends AppCompatActivity {
                 Log.i("ONRESPONSE RETROFIT", "FINISHED");
                 Log.i("LEFTITEMS", "SIZE : " + do_not_like_list.size());
 
-                listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listDataChild);
-                // setting list adapter
-                expListView.setAdapter(listAdapter);
-                expListView.expandGroup(0);
+                onResponseChecked[2] = true;
+
+                if(checkOnResponse(onResponseChecked)) {
+                    listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listDataChild);
+                    // setting list adapter
+                    expListView.setAdapter(listAdapter);
+                    expListView.expandGroup(0);
+                }
             }
 
             @Override
@@ -233,6 +259,7 @@ public class MyContentActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -358,6 +385,13 @@ public class MyContentActivity extends AppCompatActivity {
     /***TO-DO
      * OnResume : Recharger entierement tout
      */
+
+    public boolean checkOnResponse(boolean checkOnResponseArray[]){
+        if(checkOnResponseArray[0] && checkOnResponseArray[1] && checkOnResponseArray[2])
+            return true;
+        else
+            return false;
+    }
 
 
 

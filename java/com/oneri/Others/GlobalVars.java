@@ -66,6 +66,7 @@ public class GlobalVars extends Application {
 
     public static ArrayList<String> CONTENT_LIST_FLAG;
 
+    /*** Retrofit  ***/
     public static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
             .disableHtmlEscaping()
@@ -80,6 +81,7 @@ public class GlobalVars extends Application {
 
     public static APIEndpointInterface apiService =
             retrofit.create(APIEndpointInterface.class);
+    /*** Retrofit ***/
 
     @Override
     public void onCreate(){

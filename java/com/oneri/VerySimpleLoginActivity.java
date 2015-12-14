@@ -27,6 +27,11 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(!GlobalVars.PREFERENCES.getString("email", "").equals("")){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_very_simple_login);
 
