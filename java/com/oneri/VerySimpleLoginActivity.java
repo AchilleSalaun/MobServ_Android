@@ -30,6 +30,7 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
 
         if(!GlobalVars.PREFERENCES.getString("email", "").equals("")){
             Intent intent = new Intent(this, MainActivity.class);
+            GlobalVars.EMAIL_CURRENT_USER = GlobalVars.PREFERENCES.getString("email", "kevin@gmail.com");
             startActivity(intent);
         }
         super.onCreate(savedInstanceState);
