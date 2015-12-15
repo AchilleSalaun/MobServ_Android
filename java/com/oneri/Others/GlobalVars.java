@@ -39,7 +39,7 @@ public class GlobalVars extends Application {
 
     public static SharedPreferences PREFERENCES;
 
-    public static boolean SERVLET_ACHILLE_CHECKED;
+    public static boolean SERVLET_ACHILLE_CHECKED = true;
 
     public static HashMap<String, Integer> CONTENTTYPE_TO_COLOR;
 
@@ -92,7 +92,7 @@ public class GlobalVars extends Application {
         PREFERENCES = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        SERVLET_ACHILLE_CHECKED = false;
+        SERVLET_ACHILLE_CHECKED = true;
 
 
         APP_CONTEXT = getApplicationContext();
