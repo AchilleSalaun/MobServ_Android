@@ -22,6 +22,7 @@
     <string name="title_activity_very_simple_login">VerySimpleLoginActivity</string>
     <string name="title_activity_random_content">RandomContentActivity</string>
     <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="title_activity_new_content">NewContentActivity</string>
 
 
 </resources>

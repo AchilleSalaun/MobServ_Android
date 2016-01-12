@@ -80,11 +80,16 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b2bbc6154f7b50f2bc30adc15073e8ac97358c33" />
+
+        <activity
+            android:name=".NewContentActivity"
+            android:label="@string/title_activity_new_content"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#e6e6e6</color>
 
     <color name="movieColor">#840006</color>
     <color name="bookColor">#0658cd</color>
@@ -14,6 +14,6 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="transparent">#80000000</color>
-    <color name="grey">#3dffffff</color>
+    <color name="grey">#282828</color>
 
 </resources>

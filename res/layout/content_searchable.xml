@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grey"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -15,7 +16,7 @@
 
 
     <ListView
-        android:background="@color/white"
+        android:background="@color/grey"
         android:id="@+id/searched_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -26,7 +27,7 @@
         android:paddingBottom="2dp"
         android:scrollbars="none"
         android:dividerHeight="10dp"
-        android:divider="@color/white">
+        android:divider="@color/grey">
     </ListView>
 
 </LinearLayout>

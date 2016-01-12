@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         if( id == R.id.dice){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RANDOM", Toast.LENGTH_SHORT).show();
             Call<List<Content>> call_random_content = GlobalVars.apiService.getRandomContent(GlobalVars.EMAIL_CURRENT_USER);
-
             call_random_content.enqueue(new Callback<List<Content>>() {
                 @Override
                 public void onResponse(Response<List<Content>> response, Retrofit retrofit) {
@@ -171,8 +170,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
         }
+
         if( id == R.id.user){
             if(GlobalVars.DEBUG_TOAST) Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
@@ -191,6 +190,12 @@ public class MainActivity extends AppCompatActivity {
             edit.putString("email", null);
             edit.commit(); // Apply changes
             Intent intent = new Intent(this, VerySimpleLoginActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.add_content){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "ADD CONTENT", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, NewContentActivity.class);
             startActivity(intent);
         }
 

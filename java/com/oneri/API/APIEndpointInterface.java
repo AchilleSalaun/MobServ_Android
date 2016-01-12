@@ -51,4 +51,7 @@ public interface APIEndpointInterface {
     @GET("getRelation")
     Call<List<SimpleRelation>> getRelation(@Query("email") String email, @Query("title") String title, @Query("contentType") String contentType);
 
+    @POST("saveLink")
+    Call<String> saveLink(@Query("link") String link);
+
 }

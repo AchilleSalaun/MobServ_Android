@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -282,6 +283,12 @@ public class ContentActivity extends AppCompatActivity {
         if( id == R.id.recommendations){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.add_content){
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "ADD CONTENT", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, NewContentActivity.class);
             startActivity(intent);
         }
 

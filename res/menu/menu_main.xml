@@ -20,13 +20,13 @@
         android:title="Log out"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/add_content"
+        android:orderInCategory="400"
+        android:title="Add Content"
+        app:showAsAction="never"/>
+    
 
-    <!--<item
-        android:id="@+id/user"
-        android:orderInCategory="100"
-        android:title="user"
-        android:icon="@drawable/cat"
-        app:showAsAction="always" />-->
 
     <!-- Dice -->
     <item
