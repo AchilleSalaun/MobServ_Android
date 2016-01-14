@@ -38,6 +38,7 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Login");
+        toolbar.setBackgroundResource(R.color.black);
         setSupportActionBar(toolbar);
         emailTv = (EditText) findViewById(R.id.email);
         switch_achille = (Switch) findViewById(R.id.switch_achille);

@@ -89,6 +89,10 @@
         <activity
             android:name=".NewContentActivity"
             android:label="@string/title_activity_new_content"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MoreCommentsActivity"
+            android:label="@string/title_activity_more_comments"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

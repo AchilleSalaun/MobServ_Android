@@ -1,5 +1,6 @@
 package com.oneri.API;
 
+import com.oneri.Model.Comment;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.oneri.Model.SimpleRelation;
@@ -53,5 +54,8 @@ public interface APIEndpointInterface {
 
     @POST("saveLink")
     Call<String> saveLink(@Query("link") String link);
+
+    @GET("getComments")
+    Call<List<Comment>> getComments(@Query("title") String title, @Query("contentType") String contentType);
 
 }

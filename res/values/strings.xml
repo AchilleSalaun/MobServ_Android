@@ -25,4 +25,8 @@
     <string name="title_activity_new_content">NewContentActivity</string>
 
 
+    <!--Comments-->
+    <string name="item_comment_title_comment">Best Comment</string>
+    <string name="item_comment_more">More Comments</string>
+    <string name="title_activity_more_comments">MoreCommentsActivity</string>
 </resources>

@@ -51,7 +51,7 @@ public class MyContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.color.colorPrimaryDark);
+        toolbar.setBackgroundResource(R.color.grey);
         toolbar.setTitle("My Content");
         setSupportActionBar(toolbar);
 
@@ -355,7 +355,7 @@ public class MyContentActivity extends AppCompatActivity {
         if( id == R.id.user){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);
         }
 
@@ -365,10 +365,6 @@ public class MyContentActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        if( id == R.id.logout){
-            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
-            startActivity(intent);
-        }
 
         if( id == R.id.logout){
             SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();

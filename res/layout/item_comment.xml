@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey">
 
-    <TextView
 
+
+    <!--Separator-->
+    <View
+        android:layout_below="@+id/item_comment_title"
+        android:id="@+id/item_comment_separator"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@color/black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="2dp"/>
 
-</LinearLayout>
+    <!--Comment-->
+    <TextView
+        android:layout_below="@+id/item_comment_separator"
+        android:id="@+id/comment_comment"
+        android:text="Comment"
+        android:textSize="@dimen/item_comment_dim_comment"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"/>
+
+    <!--User (name)-->
+    <TextView
+        android:id="@+id/comment_user"
+        android:layout_below="@+id/comment_comment"
+        android:text="User"
+        android:textSize="@dimen/item_comment_dim_user"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="2dp"/>
+
+
+
+</RelativeLayout>

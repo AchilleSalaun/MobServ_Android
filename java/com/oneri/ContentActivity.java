@@ -1,6 +1,7 @@
 package com.oneri;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,16 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oneri.Adapters.CommentsListAdapter;
+import com.oneri.Adapters.SimpleListViewAdapter;
+import com.oneri.Model.Comment;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.oneri.Model.SimpleRelation;
 import com.oneri.Others.GlobalVars;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -31,6 +37,9 @@ import retrofit.Retrofit;
 
 public class ContentActivity extends AppCompatActivity {
 
+    public static String EXTRA_MESSAGE = "com.oneri.ContentActivity";
+    public static String EXTRA_MESSAGE2 = "com.oneri.ContentActivity2";
+
     private Content content;
     private Relation relation;
     private ImageView content_relation_likes_imageview;
@@ -39,6 +48,11 @@ public class ContentActivity extends AppCompatActivity {
     private boolean likes_selected;
     private boolean wishes_selected;
     private boolean do_not_like_selected;
+    private ListView listViewComments;
+    private Comment bestComment;
+    private TextView user;
+    private TextView comment;
+    private boolean comment_expanded;
 
 
     @Override
@@ -67,7 +81,7 @@ public class ContentActivity extends AppCompatActivity {
 
                 Log.i("OnResponse", "getRelation : " + relation.getRelationType());
 
-                switch (relation.getRelationType()){
+                switch (relation.getRelationType()) {
                     case GlobalVars.SAVE_RELATION_SERVLET_LIKES:
                         content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
                         likes_selected = true;
@@ -111,6 +125,41 @@ public class ContentActivity extends AppCompatActivity {
         relation.setmTitle(content.getmTitle());
         relation.setmContentType(content.getmContentType());
         relation.setmComment("AUCUN COMMENTAIRE DANS LA V1");
+
+        user = (TextView) findViewById(R.id.comment_user);
+        comment = (TextView) findViewById(R.id.comment_comment);
+
+        //Call<List<Comment>> call_getComments = GlobalVars.apiService.getComments(content.getmTitle(), content.getmContentType());
+
+        /*call_getComments.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
+                int statusCode = response.code();
+                Log.i("STATUS", "" + response.message());
+                Log.i("STATUS", "" + statusCode);
+                Log.i("STATUS", "" + response.toString());
+                Log.i("STATUS", "" + response.raw());
+                Log.i("STATUS", "" + response.isSuccess());
+
+                List<Comment> comments = response.body();
+                bestComment = comments.get(0);
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.i("onFailure", t.getMessage());
+            }
+        });*/
+
+        bestComment = new Comment();
+        bestComment.setmUser("Quentin");
+        bestComment.setmComment("I was not blown away by this movie like everyone else seems to be. First, the good stuff. There are some good actors in here, especially the actor who plays Jake (though I might be biased, because he was pretty hot), and they all commit to what they're doing and make it believable. As everyone says, the graphics and visuals are pretty freakin' awesome (as well they should be, with the budget of this movie). The world that Cameron creates is stunning, mesmerizing, and pure: the special effects are amazing. Like many, I saw it in 3D and it was good old fashioned movie-going fun. Yay! \"");
+
+        user.setText("(" + bestComment.getmUser() + ")");
+        comment.setText("");
+        comment_expanded = false;
+
     }
 
     public void saveRelation(View v){
@@ -180,8 +229,6 @@ public class ContentActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 Log.i("onFailure", t.getMessage());
-
-
             }
         });
     }
@@ -298,6 +345,24 @@ public class ContentActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(ContentActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void expandComment(View v){
+        if(comment_expanded) {
+            comment.setText("");
+            comment_expanded = false;
+        }
+        else {
+            comment.setText(bestComment.getmComment());
+            comment_expanded = true;
+        }
+    }
+
+    public void moreComments(View v){
+        Intent intent = new Intent(this, MoreCommentsActivity.class);
+        intent.putExtra(this.EXTRA_MESSAGE, content.getmTitle());
+        intent.putExtra(this.EXTRA_MESSAGE2, content.getmContentType());
         startActivity(intent);
     }
 

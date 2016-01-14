@@ -2,24 +2,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+
+    <!--My List-->
     <item
         android:id="@+id/user"
         android:orderInCategory="100"
         android:title="My List"
         app:showAsAction="never" />
 
+    <!--Recommendations-->
     <item
         android:id="@+id/recommendations"
         android:orderInCategory="200"
         android:title="Recommendations"
         app:showAsAction="never"/>
 
+    <!--Logout-->
     <item
         android:id="@+id/logout"
         android:orderInCategory="300"
         android:title="Log out"
         app:showAsAction="never"/>
 
+    <!--Add Content-->
     <item
         android:id="@+id/add_content"
         android:orderInCategory="400"
@@ -39,6 +44,7 @@
     <!-- Search Bar -->
     <item
         android:id="@+id/action_search"
+        android:icon="@drawable/search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"
         android:title="Search"/>

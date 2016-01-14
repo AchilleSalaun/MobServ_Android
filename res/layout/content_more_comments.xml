@@ -12,11 +12,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.oneri.RandomContentActivity"
-    tools:showIn="@layout/activity_searchable">
+    tools:showIn="@layout/activity_more_comments">
 
     <ListView
         android:background="@color/grey"
-        android:id="@+id/searched_list_view"
+        android:id="@+id/more_comments_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"

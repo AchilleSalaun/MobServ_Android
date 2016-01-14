@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
-
-
         searchView.setMaxWidth(GlobalVars.SEARCH_BAR_WIDTH);
 
         searchView.setOnSearchClickListener(new View.OnClickListener() {

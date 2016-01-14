@@ -92,7 +92,107 @@
                     android:text="Commercial Link" />
             </LinearLayout>
 
-            <!--Like WishList Dislike Buttons-->
+            <!--
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/list_comments_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ListView
+                    android:background="@color/grey"
+                    android:id="@+id/list_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:scrollbars="none"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:divider="@color/grey">
+                </ListView>
+            </LinearLayout>
+            -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey">
+
+                <!--Comment Title-->
+                <TextView
+                    android:id="@+id/item_comment_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_comment_title_comment"
+                    android:textSize="@dimen/comment_dim_title_comment"
+                    android:textColor="@color/white"
+                    android:paddingBottom="2dp"
+                    android:onClick="expandComment"/>
+
+                <!--Separator-->
+                <View
+                    android:layout_below="@+id/item_comment_title"
+                    android:id="@+id/item_comment_separator"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"/>
+
+                <!--Comment-->
+                <TextView
+                    android:layout_below="@+id/item_comment_separator"
+                    android:id="@+id/comment_comment"
+                    android:text="Comment"
+                    android:textSize="@dimen/comment_dim_comment"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="2dp"/>
+
+                <!--User (name)-->
+                <TextView
+                    android:id="@+id/comment_user"
+                    android:layout_below="@+id/comment_comment"
+                    android:text="User"
+                    android:textSize="@dimen/comment_dim_user"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="2dp"/>
+
+                <!--Separator-->
+                <View
+                    android:layout_below="@+id/comment_user"
+                    android:id="@+id/item_comment_separator2"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"/>
+
+                <!--More Comments-->
+                <TextView
+                    android:id="@+id/item_comment_more"
+                    android:layout_below="@+id/item_comment_separator2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_comment_more"
+                    android:textSize="@dimen/comment_dim_title_comment"
+                    android:textColor="@color/white"
+                    android:paddingBottom="2dp"
+                    android:onClick="moreComments"/>
+
+            </RelativeLayout>
+
+
+            <!--Like Wish Dislike Buttons-->
             <LinearLayout
                 android:paddingTop="20dp"
                 android:id="@+id/below_content_layout"
@@ -103,6 +203,7 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
+                <!--Like Button-->
                 <ImageView
                     android:id="@+id/content_relation_likes"
                     android:layout_width="@dimen/button_size"
@@ -112,10 +213,12 @@
                     android:onClick="saveRelation"
                     android:paddingRight="20dp" />
 
+                <!--Convenient Separator-->
                 <View
                     android:layout_width="10dp"
                     android:layout_height="match_parent"/>
 
+                <!--Wish Button-->
                 <ImageView
                     android:id="@+id/content_relation_wishes"
                     android:layout_width="@dimen/button_size"
@@ -126,10 +229,12 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
+                <!--Convenient Separator-->
                 <View
                     android:layout_width="10dp"
                     android:layout_height="match_parent"/>
 
+                <!--Do not like Button-->
                 <ImageView
                     android:id="@+id/content_relation_do_not_like"
                     android:layout_width="@dimen/button_size"
@@ -143,6 +248,5 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 </RelativeLayout>

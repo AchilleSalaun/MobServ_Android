@@ -12,9 +12,6 @@ import org.json.JSONObject;
 
 public class Relation {
 
-
-
-
     @SerializedName("Email")
     String mEmail;
 

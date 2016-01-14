@@ -3,8 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:orientation="horizontal"
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/lblListHeader"
@@ -13,5 +13,10 @@
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="17dp"
         android:textColor="@color/white"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/wishes_selected"/>
 
 </LinearLayout>

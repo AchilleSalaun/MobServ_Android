@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.oneri.Jsoup.Parsing;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.oneri.Others.GlobalVars;
@@ -36,7 +37,7 @@ public class NewContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.color.colorPrimaryDark);
+        toolbar.setBackgroundResource(R.color.black);
         toolbar.setTitle("New Content");
         setSupportActionBar(toolbar);
     }
@@ -134,7 +135,7 @@ public class NewContentActivity extends AppCompatActivity {
         if( id == R.id.user){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);
         }
 
@@ -171,7 +172,9 @@ public class NewContentActivity extends AppCompatActivity {
         String link = link_et.getText().toString();
         Call<String> call_saveLink = GlobalVars.apiService.saveLink(link);
 
-        call_saveLink.enqueue(new Callback<String>() {
+        Parsing.getTagValue(link);
+
+        /*call_saveLink.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
                 int statusCode = response.code();
@@ -188,7 +191,7 @@ public class NewContentActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
     }
 
 }
