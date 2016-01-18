@@ -1,6 +1,7 @@
 package com.oneri;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -330,6 +331,14 @@ public class ContentActivity extends AppCompatActivity {
         if( id == R.id.recommendations){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "RECOMMENDATIONS", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
+            Intent intent = new Intent(this, VerySimpleLoginActivity.class);
             startActivity(intent);
         }
 

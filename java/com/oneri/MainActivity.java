@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.oneri.Fragments.ScreenSlidePageFragment;
 import com.oneri.Model.Content;
 import com.oneri.Others.CustomViewPager;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.color.movieColor);
+        //toolbar.setBackgroundResource(R.color.movieColor);
+        toolbar.setBackgroundResource(R.color.grey);
         toolbar.setTitle("Recommendations");
         setSupportActionBar(toolbar);
 
@@ -73,9 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabsStrip.setViewPager(mViewPager);
         //mViewPager.setPagingEnabled(false);
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        //mSlidingTabLayoSampleFragmentPagerAdapterut = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        //mSlidingTabLayout.setViewPager(mViewPager);
 
     }
 

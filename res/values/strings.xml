@@ -29,4 +29,13 @@
     <string name="item_comment_title_comment">Best Comment</string>
     <string name="item_comment_more">More Comments</string>
     <string name="title_activity_more_comments">MoreCommentsActivity</string>
+
+    <string-array name="content_types">
+        <item>Movie</item>
+        <item>Book</item>
+        <item>Video Game</item>
+        <item>Comic</item>
+        <item>Series</item>
+        <item>Music</item>
+    </string-array>
 </resources>

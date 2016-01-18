@@ -14,50 +14,140 @@
     tools:context="com.oneri.NewContentActivity"
     tools:showIn="@layout/activity_new_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You do not find what you are looking for ?"
-            android:textColor="@color/white" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Feel free to help our team to extent our database"
-            android:textColor="@color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You do not find what you are looking for ?"
+                android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please inform below a Wikipedia link so we can work this out"
-            android:textColor="@color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feel free to help our team to extent our database"
+                android:textColor="@color/white" />
 
-        <EditText
-            android:id="@+id/new_content_link"
-            android:background="@drawable/rounded_edit_text"
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_height="wrap_content"
-            android:hint="Wikipedia Link"
-            android:textCursorDrawable="@color/black"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please inform below a Wikipedia link so we can work this out"
+                android:textColor="@color/white" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Go"
-            android:onClick="sendLink"/>
+            <Spinner
+                android:id="@+id/new_content_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:dropDownSelector="@drawable/selector"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:spinnerMode="dropdown"
+                ></Spinner>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/new_content_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edit_text"
+                android:hint="Wikipedia Link"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:shadowColor="@color/black"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@color/black"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="sendLink"
+                android:text="Go"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Title"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/new_content_title"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:id="@+id/new_content_image"
+                android:layout_width="180dp"
+                android:layout_height="220dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:text="Director"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Director"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/new_content_director"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:text="Description"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Description"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/new_content_description"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

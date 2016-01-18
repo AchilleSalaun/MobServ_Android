@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/linear_layout_fragment_sample"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/linear_layout_fragment_sample"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="@color/white"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<com.astuetz.PagerSlidingTabStrip
+    android:id="@+id/tabs"
+    android:background="@color/white"
+    app:pstsShouldExpand="true"
+    app:pstsTextAllCaps="false"
+    android:textSize="18sp"
+    android:textColor="@color/black"
+    app:pstsDividerColor="@color/grey"
+    app:pstsIndicatorColor="@color/grey"
+    app:pstsUnderlineColor="@color/grey"
+    app:pstsUnderlineHeight="0dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:layout_height="48dp" />
 
-    <!--Sliding Tabs Layout-->
-    <com.oneri.SlidingTabs.SlidingTabLayout
-        android:id="@+id/sliding_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <!--ViewPager-->
-    <com.oneri.Others.CustomViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@android:color/white"/>
+<!--ViewPager-->
+<com.oneri.Others.CustomViewPager
+    android:id="@+id/viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="0px"
+    android:layout_weight="1"
+    android:background="@android:color/white"/>
 
 </LinearLayout>

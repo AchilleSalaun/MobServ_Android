@@ -12,10 +12,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oneri.Adapters.SpinnerAdapter;
 import com.oneri.Jsoup.Parsing;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
@@ -28,9 +34,15 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class NewContentActivity extends AppCompatActivity {
+public class NewContentActivity extends AppCompatActivity  {
 
     private Toolbar toolbar;
+    public static TextView title_text_view;
+    public static TextView director_text_view;
+    public static TextView description_text_view;
+    public static ImageView image_image_view;
+
+    private String contentType_selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,39 @@ public class NewContentActivity extends AppCompatActivity {
         toolbar.setBackgroundResource(R.color.black);
         toolbar.setTitle("New Content");
         setSupportActionBar(toolbar);
+
+        contentType_selected = "Movie";
+
+        for(int i = 0;i<=5;i++){
+            Toast.makeText(this,"*" + getResources().getStringArray(R.array.content_types)[i] + "*",Toast.LENGTH_SHORT).show();
+        }
+
+        title_text_view = (TextView) findViewById(R.id.new_content_title);
+        director_text_view = (TextView) findViewById(R.id.new_content_director);
+        description_text_view = (TextView) findViewById(R.id.new_content_description);
+        image_image_view = (ImageView) findViewById(R.id.new_content_image);
+
+        Spinner spinner = (Spinner) findViewById(R.id.new_content_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.content_types));
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                contentType_selected = getResources().getStringArray(R.array.content_types)[position];
+                Toast.makeText(GlobalVars.APP_CONTEXT, contentType_selected, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -146,6 +191,9 @@ public class NewContentActivity extends AppCompatActivity {
         }
 
         if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
             Intent intent = new Intent(this, VerySimpleLoginActivity.class);
             startActivity(intent);
         }
@@ -170,10 +218,10 @@ public class NewContentActivity extends AppCompatActivity {
     public void sendLink(View v){
         EditText link_et = (EditText) findViewById(R.id.new_content_link);
         String link = link_et.getText().toString();
-        Call<String> call_saveLink = GlobalVars.apiService.saveLink(link);
 
-        Parsing.getTagValue(link);
+        Parsing.getTagValue(link, contentType_selected);
 
+        //Call<String> call_saveLink = GlobalVars.apiService.saveLink(link);
         /*call_saveLink.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
@@ -193,5 +241,6 @@ public class NewContentActivity extends AppCompatActivity {
             }
         });*/
     }
+
 
 }

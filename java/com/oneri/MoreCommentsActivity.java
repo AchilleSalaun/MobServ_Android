@@ -196,6 +196,9 @@ public class MoreCommentsActivity extends AppCompatActivity {
         }
 
         if( id == R.id.logout){
+            SharedPreferences.Editor edit = GlobalVars.PREFERENCES.edit();
+            edit.putString("email", null);
+            edit.commit(); // Apply changes
             Intent intent = new Intent(this, VerySimpleLoginActivity.class);
             startActivity(intent);
         }
@@ -217,32 +220,7 @@ public class MoreCommentsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendLink(View v){
-        EditText link_et = (EditText) findViewById(R.id.new_content_link);
-        String link = link_et.getText().toString();
-        Call<String> call_saveLink = GlobalVars.apiService.saveLink(link);
 
-        Parsing.getTagValue(link);
-
-        /*call_saveLink.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Response<String> response, Retrofit retrofit) {
-                int statusCode = response.code();
-                Log.i("STATUS", "" + response.message());
-                Log.i("STATUS", "" + statusCode);
-                Log.i("STATUS", "" + response.toString());
-                Log.i("STATUS", "" + response.raw());
-                Log.i("STATUS", "" + response.isSuccess());
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.i("onFailure", t.getMessage());
-
-
-            }
-        });*/
-    }
 
 }
 

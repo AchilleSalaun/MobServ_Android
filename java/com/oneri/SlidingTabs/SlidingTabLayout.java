@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.oneri.MainActivity;
 import com.oneri.Others.GlobalVars;
+import com.oneri.R;
 
 /**
  * Created by quentinleroy on 26/11/15.
@@ -161,7 +162,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // If we're running on Honeycomb or newer, then we can use the Theme's
             // selectableItemBackground to ensure that the View has a pressed state
             TypedValue outValue = new TypedValue();
@@ -173,7 +174,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
             textView.setAllCaps(true);
-        }
+        }*/
+
+        textView.setAllCaps(true);
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
         textView.setPadding(padding, padding, padding, padding);
@@ -206,6 +209,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
             tabTitleView.setText(adapter.getPageTitle(i));
             /***CHANGER LA COULEUR DES TABS ? ? ?***/
+            tabTitleView.setBackgroundResource(R.color.black);
+            tabTitleView.setTextColor(getResources().getColor(R.color.white));
+
             //tabTitleView.setBackgroundResource(GlobalVars.CONTENT_LIST_FLAG_COLOR.get(0));
             tabView.setOnClickListener(tabClickListener);
 
@@ -295,7 +301,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             for (int i = 0; i < mTabStrip.getChildCount(); i++) {
                 if (v == mTabStrip.getChildAt(i)) {
                     /*** CE QUE J'AI AJOUTE***/
-                    MainActivity.toolbar.setBackgroundResource(GlobalVars.CONTENT_LIST_FLAG_COLOR.get(i));
+                    //MainActivity.toolbar.setBackgroundResource(GlobalVars.CONTENT_LIST_FLAG_COLOR.get(i));
                     /*** CE QUE J'AI AJOUTE***/
                     mViewPager.setCurrentItem(i);
                     return;

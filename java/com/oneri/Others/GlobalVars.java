@@ -117,7 +117,7 @@ public class GlobalVars extends Application {
         CONTENT_LIST_FLAG.add("Books");
         CONTENT_LIST_FLAG.add("Video Games");
         CONTENT_LIST_FLAG.add("Comics");
-        CONTENT_LIST_FLAG.add("TV Shows");
+        CONTENT_LIST_FLAG.add("Series");
         CONTENT_LIST_FLAG.add("Music");
         CONTENT_LIST_FLAG_SERVLET = new ArrayList<>();
         CONTENT_LIST_FLAG_SERVLET.add("movie");
