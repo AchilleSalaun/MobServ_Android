@@ -11,7 +11,9 @@ import java.io.Serializable;
  * Created by quentinleroy on 28/11/15.
  */
 
-public class Content implements Serializable{
+public class Content implements Serializable {
+
+
 
     @SerializedName("Title")
     String mTitle;
@@ -71,6 +73,30 @@ public class Content implements Serializable{
 
     public String getmImageURL(){
         return this.mImageURL;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public void setmContentType(String mContentType) {
+        this.mContentType = mContentType;
+    }
+
+    public void setmDescription(String mDescription) {
+        this.mDescription = mDescription;
+    }
+
+    public void setmCreator(String mCreator) {
+        this.mCreator = mCreator;
+    }
+
+    public void setmImageURL(String mImageURL) {
+        this.mImageURL = mImageURL;
+    }
+
+    public void setmCommercialLink(String mCommercialLink) {
+        this.mCommercialLink = mCommercialLink;
     }
 
     /***Pour tester si l'objet est bien reçu***/

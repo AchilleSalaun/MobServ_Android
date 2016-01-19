@@ -3,8 +3,6 @@ package com.oneri;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.oneri.Adapters.SpinnerAdapter;
 import com.oneri.Jsoup.Parsing;
 import com.oneri.Model.Content;
-import com.oneri.Model.Relation;
 import com.oneri.Others.GlobalVars;
 
 import java.util.List;
@@ -40,7 +37,10 @@ public class NewContentActivity extends AppCompatActivity  {
     public static TextView title_text_view;
     public static TextView director_text_view;
     public static TextView description_text_view;
+    public static TextView commercialLink_text_view;
     public static ImageView image_image_view;
+    public static Button submit_button;
+    public static Content content_to_save;
 
     private String contentType_selected;
 
@@ -54,28 +54,41 @@ public class NewContentActivity extends AppCompatActivity  {
         setSupportActionBar(toolbar);
 
         contentType_selected = "Movie";
+        content_to_save = new Content();
+        content_to_save.setmContentType(GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(0));
+        content_to_save.setmCommercialLink("");
 
         for(int i = 0;i<=5;i++){
-            Toast.makeText(this,"*" + getResources().getStringArray(R.array.content_types)[i] + "*",Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(this,"*" + getResources().getStringArray(R.array.content_types)[i] + "*",Toast.LENGTH_SHORT).show();
         }
 
         title_text_view = (TextView) findViewById(R.id.new_content_title);
         director_text_view = (TextView) findViewById(R.id.new_content_director);
         description_text_view = (TextView) findViewById(R.id.new_content_description);
         image_image_view = (ImageView) findViewById(R.id.new_content_image);
+        submit_button = (Button) findViewById(R.id.new_content_submit);
+        commercialLink_text_view = (TextView) findViewById(R.id.new_content_commercialLink);
 
         Spinner spinner = (Spinner) findViewById(R.id.new_content_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item,
                 getResources().getStringArray(R.array.content_types));
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 contentType_selected = getResources().getStringArray(R.array.content_types)[position];
-                Toast.makeText(GlobalVars.APP_CONTEXT, contentType_selected, Toast.LENGTH_SHORT).show();
+                if (GlobalVars.DEBUG_TOAST)
+                    Toast.makeText(GlobalVars.APP_CONTEXT, contentType_selected, Toast.LENGTH_SHORT).show();
+                content_to_save.setmContentType(GlobalVars.CONTENT_LIST_FLAG_SERVLET.get(position));
+                String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
+                if (contentType_selected.equals(content_types[2]) || contentType_selected.equals(content_types[3])
+                        || contentType_selected.equals(content_types[5])) {
+                    Toast.makeText(GlobalVars.APP_CONTEXT, contentType_selected + " not supported", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -219,7 +232,14 @@ public class NewContentActivity extends AppCompatActivity  {
         EditText link_et = (EditText) findViewById(R.id.new_content_link);
         String link = link_et.getText().toString();
 
-        Parsing.getTagValue(link, contentType_selected);
+        String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
+        if(contentType_selected.equals(content_types[0]) || contentType_selected.equals(content_types[1])
+                || contentType_selected.equals(content_types[4])) {
+            Parsing.getTagValue(link, contentType_selected);
+        }
+        else{
+            Toast.makeText(this, contentType_selected + " not supported", Toast.LENGTH_SHORT).show();
+        }
 
         //Call<String> call_saveLink = GlobalVars.apiService.saveLink(link);
         /*call_saveLink.enqueue(new Callback<String>() {
@@ -240,6 +260,30 @@ public class NewContentActivity extends AppCompatActivity  {
 
             }
         });*/
+    }
+
+    public void submit_new_content(View v){
+
+
+        Call<Content> saveContent = GlobalVars.apiService.saveContent(content_to_save.getmTitle(), content_to_save.getmContentType(),
+                content_to_save.getmCreator(), content_to_save.getmDescription(), content_to_save.getmCommercialLink(),
+                content_to_save.getmImageURL());
+
+        saveContent.enqueue(new Callback<Content>() {
+            @Override
+            public void onResponse(Response<Content> response, Retrofit retrofit) {
+                Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.i("STATUS", t.getMessage());
+                Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 
 

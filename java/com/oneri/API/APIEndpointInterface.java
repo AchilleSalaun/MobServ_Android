@@ -8,7 +8,6 @@ import com.oneri.Model.SimpleRelation;
 import java.util.List;
 
 import retrofit.Call;
-import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -57,5 +56,10 @@ public interface APIEndpointInterface {
 
     @GET("getComments")
     Call<List<Comment>> getComments(@Query("title") String title, @Query("contentType") String contentType);
+
+    @POST("saveContent")
+    Call<Content> saveContent(@Query("title") String title, @Query("contentType") String contentType, @Query("creator") String creator,
+                              @Query("description") String description, @Query("commercialLink") String commercialLink,
+                              @Query("imageURL") String imageURL);
 
 }

@@ -32,31 +32,43 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Feel free to help our team to extent our database"
+                android:text="Feel free to help our team to extend our database"
                 android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please inform below a Wikipedia link so we can work this out"
+                android:text="Please inform below the required fields"
                 android:textColor="@color/white" />
 
-            <Spinner
-                android:id="@+id/new_content_spinner"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@drawable/rounded_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:dropDownSelector="@drawable/selector"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:spinnerMode="dropdown"
-                ></Spinner>
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/new_content_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    ></Spinner>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
 
             <EditText
                 android:id="@+id/new_content_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edit_text"
-                android:hint="Wikipedia Link"
+                android:hint="Enter a title ..."
+                android:focusable="true"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:shadowColor="@color/black"
@@ -64,13 +76,93 @@
                 android:textCursorDrawable="@color/black"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey"
+                android:background="@drawable/rounded_button"
                 android:onClick="sendLink"
                 android:text="Go"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <!--Thumbnail Image & Title & Creator-->
+            <LinearLayout
+                android:id="@+id/upper_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--Thumbnail Image-->
+                <ImageView
+                    android:id="@+id/new_content_image"
+                    android:layout_width="180dp"
+                    android:layout_height="220dp" />
+
+                <!--Title & Creator-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <!--Title-->
+                    <TextView
+                        android:id="@+id/new_content_title"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text=""
+                        android:textSize="24sp"
+                        android:typeface="sans" />
+
+                    <!--Creator-->
+                    <TextView
+                        android:textColor="@color/white"
+                        android:id="@+id/new_content_director"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/new_content_title"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:text="" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!--Description & CommercialLink-->
+            <LinearLayout
+                android:paddingTop="20dp"
+                android:id="@+id/main_content_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--Description-->
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/new_content_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <!--Commercial Link-->
+                <TextView
+                    android:paddingTop="10dp"
+                    android:id="@+id/new_content_commercialLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:text="Commercial Link" />
+            </LinearLayout>
+
+            <!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,6 +235,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+            -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <Button
+                android:onClick="submit_new_content"
+                android:id="@+id/new_content_submit"
+                android:text="Submit"
+                android:background="@drawable/rounded_button"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
 

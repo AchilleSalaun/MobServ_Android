@@ -1,5 +1,6 @@
 package com.oneri.Jsoup;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
@@ -236,6 +237,35 @@ public class Parsing {
         return iblist_image_url;
     }
 
+    public static String getAmazonMovieCommercialLink(String search_query){
+
+        String url_encoded_search_query = URLEncoder.encode(search_query.toLowerCase());
+        String amazon_commercial_link = "";
+        //String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss_2?url=search-alias%3Ddvd&field-keywords=" + url_encoded_search_query + "&sprefix=" + url_encoded_search_query + "%2Caps%2CNaN)";
+        //String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Ddvd&field-keywords=reservoir+dogs&rh=n%3A283926%2Ck%3Areservoir+dogs";
+        //String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Ddvd&field-keywords=reservoir+dogs&rh=n%3A283926%2Ck%3Areservoir+dogs";
+        String url = "http://www.amazon.co.uk/s/ref=nb_sb_ss_c_0_4?url=search-alias%3Ddvd&field-keywords=" +
+                url_encoded_search_query + "&sprefix=" + url_encoded_search_query + "%2Caps%2C170";
+        Document doc;
+        System.out.println(url_encoded_search_query);
+        try{
+            doc = Jsoup.connect(url).timeout(100000).get();
+
+            //Element link = doc.select("div[id=main]").select("div[id=rightContainerATF]").select("li[id=result_0]").select("div[class=a-row a-spacing-mini]").select("a[class=a-link-normal s-access-detail-page a-text-normal]").get(0);
+
+            Element link = doc.select("div[id=main]").select("div[id=rightContainerATF]").select("li[id=result_0]").
+                    select("div[class=a-row a-spacing-mini]").select("div[class=a-row a-spacing-none]").get(0).
+                    select("a[href]").get(0);
+
+            amazon_commercial_link = link.attr("href");
+        }catch(IOException e){
+            //return "IOException Jsoup.connect(url).get(0) getAmazonMovieCommercialLink " + url_encoded_search_query;
+            return e.getMessage();
+        }
+
+        return amazon_commercial_link;
+    }
+
     //Deprecated
     public static String getSmallIMDBDescription(String title){
         title = URLEncoder.encode(title).toLowerCase();
@@ -316,51 +346,73 @@ public class Parsing {
             String creator = "creator";
             String image_url = "image url";
             String description = "description";
+            String commercialLink = "commercialLink";
 
             Log.i("SALUTSALUT", "*" + user_input_contentType + "*");
             Log.i("SALUTSALUT", "*" + GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types)[0] + "*");
 
-            if(user_input_contentType.equals(GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types)[0])) {
+            String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
+            if(user_input_contentType.equals(content_types[0])) {
                 String imdb_url_content = getFirstURLIMDBSearchResult(user_input);
                 title = getIMDBTitleName(imdb_url_content);
                 creator = getIMDBMovieDirector(imdb_url_content);
                 description = getIMDBSmallDescription(imdb_url_content);
                 image_url = getIMDBImageURL(imdb_url_content);
+                commercialLink = getAmazonMovieCommercialLink(title);
             }
-            if(user_input_contentType.equals(GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types)[1])) {
+            if(user_input_contentType.equals(content_types[1])) {
                 String iblist_url_content = getFirstURLIblistSearchResult(user_input);
                 title = getIblistTitleName(iblist_url_content);
                 creator = getIblistAuthor(iblist_url_content);
                 description = getIblistDescription(iblist_url_content);
                 image_url = getIblistImageURL(iblist_url_content);
             }
-            if(user_input_contentType.equals(GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types)[4])) {
+            if(user_input_contentType.equals(content_types[2])){
+                title = creator = description = image_url = content_types[2] + " not supported";
+            }
+            if(user_input_contentType.equals(content_types[3])){
+                title = creator = description = image_url = content_types[3] + " not supported";
+            }
+            if(user_input_contentType.equals(content_types[4])) {
                 String imdb_url_content = getFirstURLIMDBSearchResult(user_input);
                 title = getIMDBTitleName(imdb_url_content);
                 creator = getIMDBTvSeriesCreator(imdb_url_content);
                 description = getIMDBSmallDescription(imdb_url_content);
                 image_url = getIMDBImageURL(imdb_url_content);
             }
+            if(user_input_contentType.equals(content_types[5])){
+                title = creator = description = image_url = content_types[5] + " not supported";
+            }
 
 
 
-            String[] to_returns = {title, creator,image_url, description};
+            String[] to_returns = {title, creator,image_url, description, commercialLink};
 
             return to_returns;
         }
 
         @Override
         protected void onPostExecute(String[] result){
-            Toast.makeText(GlobalVars.APP_CONTEXT, result[0], Toast.LENGTH_SHORT).show();
-            Toast.makeText(GlobalVars.APP_CONTEXT, result[1], Toast.LENGTH_SHORT).show();
-            Toast.makeText(GlobalVars.APP_CONTEXT, result[2], Toast.LENGTH_SHORT).show();
-            Toast.makeText(GlobalVars.APP_CONTEXT, result[3], Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, result[0], Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, result[1], Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, result[2], Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, result[3], Toast.LENGTH_SHORT).show();
+            if(GlobalVars.DEBUG_TOAST)Toast.makeText(GlobalVars.APP_CONTEXT, result[4], Toast.LENGTH_SHORT).show();
+
 
             NewContentActivity.title_text_view.setText(result[0]);
             NewContentActivity.director_text_view.setText(result[1]);
             Picasso.with(GlobalVars.APP_CONTEXT).load(result[2]).resize((int) 150, 0).into(NewContentActivity.image_image_view);
             NewContentActivity.description_text_view.setText(result[3]);
+            NewContentActivity.commercialLink_text_view.setText(result[4]);
 
+            NewContentActivity.content_to_save.setmTitle(result[0]);
+            NewContentActivity.content_to_save.setmCreator(result[1]);
+            NewContentActivity.content_to_save.setmImageURL(result[2]);
+            NewContentActivity.content_to_save.setmDescription(result[3]);
+            NewContentActivity.content_to_save.setmCommercialLink(result[4]);
+
+            Toast.makeText(GlobalVars.APP_CONTEXT, "Ready to be submitted", Toast.LENGTH_SHORT).show();
 
 
 
