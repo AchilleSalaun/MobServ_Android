@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.setBackgroundResource(R.color.movieColor);
-        toolbar.setBackgroundResource(R.color.grey);
+        toolbar.setBackgroundResource(R.color.black);
         toolbar.setTitle("Recommendations");
         setSupportActionBar(toolbar);
 

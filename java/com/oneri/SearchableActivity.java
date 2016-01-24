@@ -38,7 +38,7 @@ public class SearchableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.color.grey);
+        toolbar.setBackgroundResource(R.color.black);
         setSupportActionBar(toolbar);
 
         // Get the intent, verify the action and get the query

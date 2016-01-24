@@ -1,5 +1,7 @@
 package com.oneri;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -458,28 +460,46 @@ public class ContentActivity extends AppCompatActivity {
 
     public void submitNewComment(View v){
 
+        new AlertDialog.Builder(this)
+                .setTitle("Submit Comment")
+                .setMessage("Are you sure you want to submit this comment?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText new_comment_edit_text = (EditText) findViewById(R.id.content_new_comment);
+                        relation.setmComment(new_comment_edit_text.getText().toString());
+                        Call<Relation> call_saveRelation = GlobalVars.apiService.saveRelation(relation.getmEmail(), relation.getmTitle(),
+                                relation.getmContentType(), relation.getmRelationType(), relation.getmComment());
 
-        EditText new_comment_edit_text = (EditText) findViewById(R.id.content_new_comment);
-        relation.setmComment(new_comment_edit_text.getText().toString());
-        Call<Relation> call_saveRelation = GlobalVars.apiService.saveRelation(relation.getmEmail(), relation.getmTitle(),
-                relation.getmContentType(), relation.getmRelationType(), relation.getmComment());
+                        call_saveRelation.enqueue(new Callback<Relation>() {
+                            @Override
+                            public void onResponse(Response<Relation> response, Retrofit retrofit) {
+                                int statusCode = response.code();
+                                Log.i("STATUS", "" + response.message());
+                                Log.i("STATUS", "" + statusCode);
+                                Log.i("STATUS", "" + response.toString());
+                                Log.i("STATUS", "" + response.raw());
+                                Log.i("STATUS", "" + response.isSuccess());
+                                Toast.makeText(GlobalVars.APP_CONTEXT, "Comment submitted", Toast.LENGTH_SHORT).show();
+                            }
 
-        call_saveRelation.enqueue(new Callback<Relation>() {
-            @Override
-            public void onResponse(Response<Relation> response, Retrofit retrofit) {
-                int statusCode = response.code();
-                Log.i("STATUS", "" + response.message());
-                Log.i("STATUS", "" + statusCode);
-                Log.i("STATUS", "" + response.toString());
-                Log.i("STATUS", "" + response.raw());
-                Log.i("STATUS", "" + response.isSuccess());
-            }
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.i("onFailure", t.getMessage());
+                                Toast.makeText(GlobalVars.APP_CONTEXT, "Comment submitted", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.i("onFailure", t.getMessage());
-            }
-        });
+
+
 
 
     }
