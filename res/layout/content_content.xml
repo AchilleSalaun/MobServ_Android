@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_content_relative_layout"
@@ -14,13 +14,13 @@
     tools:showIn="@layout/activity_content">
 
     <ScrollView
-        android:background="@color/grey"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!--Thumbnail Image & Title & Creator-->
@@ -44,51 +44,51 @@
                     <!--Title-->
                     <TextView
                         android:id="@+id/content_title"
-                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:text="Title"
+                        android:textColor="@color/white"
                         android:textSize="24sp"
                         android:typeface="sans" />
 
                     <!--Creator-->
                     <TextView
-                        android:textColor="@color/white"
                         android:id="@+id/content_creator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/content_title"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
-                        android:text="Content" />
+                        android:text="Content"
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
             </LinearLayout>
 
             <!--Description & CommercialLink-->
             <LinearLayout
-                android:paddingTop="20dp"
                 android:id="@+id/main_content_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="20dp">
 
                 <!--Description-->
                 <TextView
-                    android:textColor="@color/white"
                     android:id="@+id/content_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description" />
+                    android:text="Description"
+                    android:textColor="@color/white" />
 
                 <!--Commercial Link-->
                 <TextView
-                    android:paddingTop="10dp"
                     android:id="@+id/content_commercialLink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:paddingTop="10dp"
                     android:text="Commercial Link" />
             </LinearLayout>
 
@@ -118,7 +118,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey">
@@ -128,80 +130,139 @@
                     android:id="@+id/item_comment_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_comment_title_comment"
-                    android:textSize="@dimen/comment_dim_title_comment"
-                    android:textColor="@color/white"
+                    android:onClick="expandComment"
                     android:paddingBottom="2dp"
-                    android:onClick="expandComment"/>
+                    android:text="@string/item_comment_title_comment"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/comment_dim_title_comment"/>
 
                 <!--Separator-->
                 <View
-                    android:layout_below="@+id/item_comment_title"
                     android:id="@+id/item_comment_separator"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:background="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="2dp"/>
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/item_comment_title"
+                    android:background="@color/black"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
 
-                <!--Comment-->
+                <!--Best Comment-->
                 <TextView
-                    android:layout_below="@+id/item_comment_separator"
-                    android:id="@+id/comment_comment"
-                    android:text="Comment"
-                    android:textSize="@dimen/comment_dim_comment"
-                    android:textColor="@color/white"
+                    android:id="@+id/comment_best_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="2dp"/>
+                    android:layout_below="@+id/item_comment_separator"
+                    android:paddingTop="2dp"
+                    android:text="Comment"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/comment_dim_comment"
+                    android:onClick="expandComment"/>
 
                 <!--User (name)-->
                 <TextView
                     android:id="@+id/comment_user"
-                    android:layout_below="@+id/comment_comment"
-                    android:text="User"
-                    android:textSize="@dimen/comment_dim_user"
-                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:paddingBottom="2dp"/>
+                    android:layout_below="@+id/comment_best_comment"
+                    android:paddingBottom="2dp"
+                    android:text="User"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/comment_dim_user"/>
 
                 <!--Separator-->
                 <View
-                    android:layout_below="@+id/comment_user"
                     android:id="@+id/item_comment_separator2"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:background="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="2dp"/>
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/comment_user"
+                    android:background="@color/black"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
 
                 <!--More Comments-->
                 <TextView
                     android:id="@+id/item_comment_more"
-                    android:layout_below="@+id/item_comment_separator2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_comment_more"
-                    android:textSize="@dimen/comment_dim_title_comment"
-                    android:textColor="@color/white"
+                    android:layout_below="@+id/item_comment_separator2"
+                    android:onClick="moreComments"
                     android:paddingBottom="2dp"
-                    android:onClick="moreComments"/>
+                    android:text="@string/item_comment_more"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/comment_dim_title_comment"/>
+
+                <!--Separator-->
+                <View
+                    android:id="@+id/item_comment_separator3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/item_comment_more"
+                    android:background="@color/black"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+
 
             </RelativeLayout>
 
 
+                <!--<LinearLayout
+                    android:id="@+id/comment_lvExp_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ExpandableListView
+                        android:id="@+id/comment_lvExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:cacheColorHint="@color/white"/>
+                </LinearLayout>-->
+
+                <!--New Comment Layout-->
+                <LinearLayout
+                    android:id="@+id/content_new_comment_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:id="@+id/content_new_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_edit_text"
+                        android:hint="Type a comment ..."
+                        android:paddingBottom="2dp"
+                        android:singleLine="true"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounded_button"
+                        android:onClick="submitNewComment"
+                        android:padding="0dp"
+                        android:text="Submit"/>
+
+                </LinearLayout>
+
+
+
+
+
             <!--Like Wish Dislike Buttons-->
             <LinearLayout
-                android:paddingTop="20dp"
                 android:id="@+id/below_content_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
 
                 <!--Like Button-->
                 <ImageView
@@ -249,4 +310,4 @@
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

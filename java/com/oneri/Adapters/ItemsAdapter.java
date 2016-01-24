@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oneri.Model.Content;
+import com.oneri.Others.GlobalVars;
 import com.oneri.R;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -85,8 +86,9 @@ public class ItemsAdapter extends ArrayAdapter<Content> {
         //holder.itemCommercialLink.setText(""/*content.getmCommercialLink()*/);
         /*** L'URL est recuperee depuis la base de donnees***/
         String urlFromDB = content.getmImageURL();
+        holder.itemImage.setBackgroundResource(R.drawable.default_image_item);
         //Picasso.with(context).load(urlFromDB).resize((int) imageWidth, 0).into(itemImage);
-        Picasso.with(context).load(urlFromDB)./*memoryPolicy(MemoryPolicy.NO_CACHE).*/into(holder.itemImage);
+        Picasso.with(context).load(urlFromDB).resize((int) GlobalVars.SCREEN_WIDTH/3, 0)./*memoryPolicy(MemoryPolicy.NO_CACHE).*/into(holder.itemImage);
         /*** Picasso c'est trop bien (https://github.com/codepath/android_guides/wiki/Displaying-Images-with-the-Picasso-Library)***/
 
 

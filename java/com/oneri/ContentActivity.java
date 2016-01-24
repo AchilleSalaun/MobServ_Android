@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,15 +22,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oneri.Adapters.CommentsListAdapter;
+import com.oneri.Adapters.ExpandableBestCommentAdapter;
+import com.oneri.Adapters.ExpandableListAdapter;
 import com.oneri.Adapters.SimpleListViewAdapter;
 import com.oneri.Model.Comment;
+import com.oneri.Model.CommentModel;
 import com.oneri.Model.Content;
 import com.oneri.Model.Relation;
 import com.oneri.Model.SimpleRelation;
+import com.oneri.Model.User;
 import com.oneri.Others.GlobalVars;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Call;
@@ -49,11 +56,16 @@ public class ContentActivity extends AppCompatActivity {
     private boolean likes_selected;
     private boolean wishes_selected;
     private boolean do_not_like_selected;
-    private ListView listViewComments;
     private Comment bestComment;
     private TextView user;
     private TextView comment;
     private boolean comment_expanded;
+
+    private ExpandableBestCommentAdapter listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listDataHeader;
+    private HashMap<String, List<Comment>> listDataChild;
+    private LinearLayout lvExp_layout;
 
 
     @Override
@@ -61,10 +73,11 @@ public class ContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
+
+
         content_relation_likes_imageview = (ImageView) findViewById(R.id.content_relation_likes);
         content_relation_wishes_imageview = (ImageView) findViewById(R.id.content_relation_wishes);
         content_relation_do_not_like_imageview = (ImageView) findViewById(R.id.content_relation_do_not_like);
-
 
         Intent intent = getIntent();
         content = (Content)intent.getSerializableExtra(MyContentActivity.EXTRA_MESSAGE_CONTENT);
@@ -73,36 +86,6 @@ public class ContentActivity extends AppCompatActivity {
         toolbar.setBackgroundResource(intent.getIntExtra(MyContentActivity.EXTRA_MESSAGE_COLOR, R.color.black));
         setSupportActionBar(toolbar);
 
-        Call<List<SimpleRelation>> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
-                        content.getmTitle(), content.getmContentType());
-        call_get_relation.enqueue(new Callback<List<SimpleRelation>>() {
-            @Override
-            public void onResponse(Response<List<SimpleRelation>> response, Retrofit retrofit) {
-                SimpleRelation relation = response.body().get(0);
-
-                Log.i("OnResponse", "getRelation : " + relation.getRelationType());
-
-                switch (relation.getRelationType()) {
-                    case GlobalVars.SAVE_RELATION_SERVLET_LIKES:
-                        content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
-                        likes_selected = true;
-                        break;
-                    case GlobalVars.SAVE_RELATION_SERVLET_WAITING:
-                        content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
-                        wishes_selected = true;
-                        break;
-                    case GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE:
-                        content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
-                        do_not_like_selected = true;
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.i("OnFailure", "getRelation : " + t.getMessage());
-            }
-        });
 
         ImageView imageView = (ImageView) findViewById(R.id.content_image);
         String urlFromDB = content.getmImageURL();
@@ -126,13 +109,54 @@ public class ContentActivity extends AppCompatActivity {
         relation.setmTitle(content.getmTitle());
         relation.setmContentType(content.getmContentType());
         relation.setmComment("AUCUN COMMENTAIRE DANS LA V1");
+        Call<List<SimpleRelation>> call_get_relation = GlobalVars.apiService.getRelation(GlobalVars.EMAIL_CURRENT_USER,
+                content.getmTitle(), content.getmContentType());
+        call_get_relation.enqueue(new Callback<List<SimpleRelation>>() {
+            @Override
+            public void onResponse(Response<List<SimpleRelation>> response, Retrofit retrofit) {
+                SimpleRelation simple_relation = response.body().get(0);
+
+                Log.i("OnResponse", "getRelation : " + simple_relation.getRelationType());
+
+                switch (simple_relation.getRelationType()) {
+                    case GlobalVars.SAVE_RELATION_SERVLET_LIKES:
+                        content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
+                        likes_selected = true;
+                        break;
+                    case GlobalVars.SAVE_RELATION_SERVLET_WAITING:
+                        content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
+                        wishes_selected = true;
+                        break;
+                    case GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE:
+                        content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
+                        do_not_like_selected = true;
+                        break;
+                    default:
+                        likes_selected = false;
+                        wishes_selected = false;
+                        do_not_like_selected = false;
+                        relation.setmRelationType("no relation");
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.i("OnFailure", "getRelation : " + t.getMessage());
+            }
+        });
 
         user = (TextView) findViewById(R.id.comment_user);
-        comment = (TextView) findViewById(R.id.comment_comment);
+        user.setText("");
+        comment = (TextView) findViewById(R.id.comment_best_comment);
+        comment.setText("");
+        comment_expanded = false;
+        //expListView = (ExpandableListView) findViewById(R.id.comment_lvExp);
 
-        //Call<List<Comment>> call_getComments = GlobalVars.apiService.getComments(content.getmTitle(), content.getmContentType());
 
-        /*call_getComments.enqueue(new Callback<List<Comment>>() {
+        Call<List<Comment>> call_getComments = GlobalVars.apiService.getComments(content.getmTitle(), content.getmContentType());
+
+        call_getComments.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
                 int statusCode = response.code();
@@ -143,7 +167,28 @@ public class ContentActivity extends AppCompatActivity {
                 Log.i("STATUS", "" + response.isSuccess());
 
                 List<Comment> comments = response.body();
-                bestComment = comments.get(0);
+                if (comments.size() != 0) {
+                    bestComment = comments.get(0);
+                    user.setText("(" + bestComment.getUserName() + ")");
+                    comment.setText(bestComment.getmComment());
+                } else {
+                    bestComment = new Comment();
+                    bestComment.setmComment("Be the first to comment " + content.getmTitle() + "!");
+                    bestComment.setmEmail("@bar.com");
+                    user.setText("");
+                    comment.setText(bestComment.getmComment());
+                }
+
+                //expandComment(null);
+
+                // preparing list data
+                //prepareListData();
+
+                /*lvExp_layout = (LinearLayout) findViewById(R.id.comment_lvExp_layout);
+                final TextView bestComment_text_view = new TextView(GlobalVars.APP_CONTEXT);
+                bestComment_text_view.setText(bestComment.getmComment());
+                */
+                // get the listview
 
             }
 
@@ -151,17 +196,49 @@ public class ContentActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 Log.i("onFailure", t.getMessage());
             }
+        });
+
+
+        /*expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return false;
+            }
         });*/
 
-        bestComment = new Comment();
-        bestComment.setmUser("Quentin");
-        bestComment.setmComment("I was not blown away by this movie like everyone else seems to be. First, the good stuff. There are some good actors in here, especially the actor who plays Jake (though I might be biased, because he was pretty hot), and they all commit to what they're doing and make it believable. As everyone says, the graphics and visuals are pretty freakin' awesome (as well they should be, with the budget of this movie). The world that Cameron creates is stunning, mesmerizing, and pure: the special effects are amazing. Like many, I saw it in 3D and it was good old fashioned movie-going fun. Yay! \"");
 
-        user.setText("(" + bestComment.getmUser() + ")");
-        comment.setText("");
-        comment_expanded = false;
+
+
 
     }
+
+    /*
+    * Preparing the list data
+    */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<Comment>>();
+
+        String header_tag = "Best Comment";
+        // Adding child data
+        listDataHeader.add(header_tag);
+
+        loadItems();
+    }
+
+    private void loadItems(){
+
+        List<Comment> comments = new ArrayList<Comment>();
+        comments.add(bestComment);
+        listDataChild.put(listDataHeader.get(0), (List<Comment>)comments);
+
+        listAdapter = new ExpandableBestCommentAdapter(getApplicationContext(), listDataHeader, listDataChild);
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+        expListView.expandGroup(0);
+
+    }
+
 
     public void saveRelation(View v){
         Integer id = v.getId();
@@ -215,7 +292,6 @@ public class ContentActivity extends AppCompatActivity {
 
         Call<Relation> call_saveRelation = GlobalVars.apiService.saveRelation(relation.getmEmail(), relation.getmTitle(),
                                 relation.getmContentType(), relation.getmRelationType(), relation.getmComment());
-
         call_saveRelation.enqueue(new Callback<Relation>() {
             @Override
             public void onResponse(Response<Relation> response, Retrofit retrofit) {
@@ -359,11 +435,13 @@ public class ContentActivity extends AppCompatActivity {
 
     public void expandComment(View v){
         if(comment_expanded) {
-            comment.setText("");
+            //comment.setText("");
+            comment.setSingleLine(true);
             comment_expanded = false;
         }
         else {
-            comment.setText(bestComment.getmComment());
+            //comment.setText(bestComment.getmComment());
+            comment.setSingleLine(false);
             comment_expanded = true;
         }
     }
@@ -373,6 +451,34 @@ public class ContentActivity extends AppCompatActivity {
         intent.putExtra(this.EXTRA_MESSAGE, content.getmTitle());
         intent.putExtra(this.EXTRA_MESSAGE2, content.getmContentType());
         startActivity(intent);
+    }
+
+    public void submitNewComment(View v){
+
+
+        EditText new_comment_edit_text = (EditText) findViewById(R.id.content_new_comment);
+        relation.setmComment(new_comment_edit_text.getText().toString());
+        Call<Relation> call_saveRelation = GlobalVars.apiService.saveRelation(relation.getmEmail(), relation.getmTitle(),
+                relation.getmContentType(), relation.getmRelationType(), relation.getmComment());
+
+        call_saveRelation.enqueue(new Callback<Relation>() {
+            @Override
+            public void onResponse(Response<Relation> response, Retrofit retrofit) {
+                int statusCode = response.code();
+                Log.i("STATUS", "" + response.message());
+                Log.i("STATUS", "" + statusCode);
+                Log.i("STATUS", "" + response.toString());
+                Log.i("STATUS", "" + response.raw());
+                Log.i("STATUS", "" + response.isSuccess());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.i("onFailure", t.getMessage());
+            }
+        });
+
+
     }
 
 }

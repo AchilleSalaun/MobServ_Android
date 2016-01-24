@@ -8,24 +8,40 @@ import org.json.JSONObject;
 /**
  * Created by quentinleroy on 14/01/16.
  */
+
 public class Comment {
 
 
+    @SerializedName("Comment")
+    private String mComment;
 
-    @SerializedName("comment")
-    String mComment;
+    @SerializedName("Email")
+    private String mEmail;
 
-    @SerializedName("user")
-    String mUser;
+    @SerializedName("RelationType")
+    private String mRelationType;
 
-    public void Comment(String comment, String user){
+    @SerializedName("ContentType")
+    private String mContentType;
+
+    @SerializedName("Title")
+    private String mTitle;
+
+
+    public void Comment(String comment, String email, String relationType, String contentType, String title){
         this.mComment = comment;
-        this.mUser = user;
+        this.mEmail = email;
+        this.mRelationType = relationType;
+        this.mContentType = contentType;
+        this.mTitle = title;
     }
 
     public void Comment(){
         this.mComment = "Comment";
-        this.mUser = "User";
+        this.mEmail = "Email";
+        this.mRelationType = "RelationType";
+        this.mContentType = "ContentType";
+        this.mTitle = "Title";
     }
 
     public String getmComment() {
@@ -36,20 +52,53 @@ public class Comment {
         this.mComment = mComment;
     }
 
-    public String getmUser() {
-        return mUser;
+    public String getmEmail() {
+        return mEmail;
     }
 
-    public void setmUser(String mUser) {
-        this.mUser = mUser;
+    public String getUserName(){
+        return mEmail.substring(0,mEmail.indexOf("@"));
     }
+
+    public void setmEmail(String mEmail) {
+        this.mEmail = mEmail;
+    }
+
+    public String getmRelationType() {
+        return mRelationType;
+    }
+
+    public void setmRelationType(String mRelationType) {
+        this.mRelationType = mRelationType;
+    }
+
+    public String getmContentType() {
+        return mContentType;
+    }
+
+    public void setmContentType(String mContentType) {
+        this.mContentType = mContentType;
+    }
+
+    public String getmTitle() {
+        return mTitle;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+
 
     /***Pour tester si l'objet est bien reçu***/
     public String getJsonString() {
         JSONObject object = new JSONObject();
         try {
-            object.put("User", mUser);
             object.put("Comment", mComment);
+            object.put("Email", mEmail);
+            object.put("RelationType", mRelationType);
+            object.put("ContentType", mContentType);
+            object.put("Title", mTitle);
         } catch (JSONException e) {
             e.printStackTrace();
         }

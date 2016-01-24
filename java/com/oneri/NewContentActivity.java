@@ -1,5 +1,7 @@
 package com.oneri;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -265,23 +267,51 @@ public class NewContentActivity extends AppCompatActivity  {
     public void submit_new_content(View v){
 
 
-        Call<Content> saveContent = GlobalVars.apiService.saveContent(content_to_save.getmTitle(), content_to_save.getmContentType(),
-                content_to_save.getmCreator(), content_to_save.getmDescription(), content_to_save.getmCommercialLink(),
-                content_to_save.getmImageURL());
+        String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
+        if (contentType_selected.equals(content_types[2]) || contentType_selected.equals(content_types[3])
+                || contentType_selected.equals(content_types[5])) {
+            Toast.makeText(GlobalVars.APP_CONTEXT, contentType_selected + " not supported", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if(Parsing.SUBMIT_ALLOWED) {
 
-        saveContent.enqueue(new Callback<Content>() {
-            @Override
-            public void onResponse(Response<Content> response, Retrofit retrofit) {
-                Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Submit to Database")
+                        .setMessage("Are you sure you want to submit this content?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<Content> saveContent = GlobalVars.apiService.saveContent(content_to_save.getmTitle(), content_to_save.getmContentType(),
+                                        content_to_save.getmCreator(), content_to_save.getmDescription(), content_to_save.getmCommercialLink(),
+                                        content_to_save.getmImageURL());
+
+                                saveContent.enqueue(new Callback<Content>() {
+                                    @Override
+                                    public void onResponse(Response<Content> response, Retrofit retrofit) {
+                                        Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+                                        Log.i("STATUS", t.getMessage());
+                                        Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.i("STATUS", t.getMessage());
-                Toast.makeText(GlobalVars.APP_CONTEXT, "Content Submitted to Database", Toast.LENGTH_SHORT).show();
-
+            else{
+                Toast.makeText(this, "Submit not allowed, no result found", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
 
 
     }

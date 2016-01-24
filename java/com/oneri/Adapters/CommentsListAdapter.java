@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.oneri.Model.Comment;
+import com.oneri.Model.CommentModel;
 import com.oneri.Model.Content;
 import com.oneri.R;
 import com.squareup.picasso.Picasso;
@@ -58,7 +59,7 @@ public class CommentsListAdapter extends ArrayAdapter<Comment> {
         }
 
 
-        holder.itemUser.setText(comment.getmUser());
+        holder.itemUser.setText(comment.getUserName());
         holder.itemComment.setText(comment.getmComment());
 
         row.setTag(holder);

@@ -33,7 +33,7 @@ public class SimpleRelation {
     public String getJsonString() {
         JSONObject object = new JSONObject();
         try {
-            object.put("RelatoinType", this.relationType);
+            object.put("RelationType", this.relationType);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.oneri.Adapters.CommentsListAdapter;
 import com.oneri.Jsoup.Parsing;
 import com.oneri.Model.Comment;
+import com.oneri.Model.CommentModel;
 import com.oneri.Model.Content;
 import com.oneri.Others.GlobalVars;
 
@@ -37,6 +38,7 @@ public class MoreCommentsActivity extends AppCompatActivity {
     private String title;
     private String contentType;
     private ListView listViewComments;
+    private ArrayList<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,10 @@ public class MoreCommentsActivity extends AppCompatActivity {
         toolbar.setBackgroundResource(R.color.black);
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
-        //Call<List<Comment>> call_getComments = GlobalVars.apiService.getComments(content.getmTitle(), content.getmContentType());
 
-        /*call_getComments.enqueue(new Callback<List<Comment>>() {
+        Call<List<Comment>> call_getComments = GlobalVars.apiService.getComments(title, contentType);
+
+        call_getComments.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
                 int statusCode = response.code();
@@ -63,8 +66,18 @@ public class MoreCommentsActivity extends AppCompatActivity {
                 Log.i("STATUS", "" + response.raw());
                 Log.i("STATUS", "" + response.isSuccess());
 
-                List<Comment> comments = response.body();
-                bestComment = comments.get(0);
+                comments = (ArrayList<Comment>)response.body();
+                listViewComments = (ListView) findViewById(R.id.more_comments_list_view);
+                if(comments.size()!=0) {
+                    listViewComments.setAdapter(new CommentsListAdapter(GlobalVars.APP_CONTEXT, R.layout.item_comment, comments));
+                }
+                else{
+                    Comment comment = new Comment();
+                    comment.setmComment("Be the first to comment " + title + "!");
+                    comment.setmEmail("@bar.com");
+                    comments.add(comment);
+                    listViewComments.setAdapter(new CommentsListAdapter(GlobalVars.APP_CONTEXT, R.layout.item_comment, comments));
+                }
 
             }
 
@@ -72,11 +85,10 @@ public class MoreCommentsActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 Log.i("onFailure", t.getMessage());
             }
-        });*/
+        });
 
-        listViewComments = (ListView) findViewById(R.id.more_comments_list_view);
-        ArrayList<Comment> comments = new ArrayList<>();
-        Comment comment = new Comment();
+        //ArrayList<Comment> comments = new ArrayList<>();
+        /*Comment comment = new Comment();
         comment.setmUser("Diane");
         comment.setmComment("Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot Robot");
         comments.add(comment);
@@ -87,9 +99,8 @@ public class MoreCommentsActivity extends AppCompatActivity {
         Comment comment2 = new Comment();
         comment2.setmUser("Martin");
         comment2.setmComment("Asservissement en position Asservissement en position Asservissement en position Asservissement en position Asservissement en position Asservissement en position Asservissement en position Asservissement en position Asservissement en position ");
-        comments.add(comment2);
+        comments.add(comment2);*/
 
-        listViewComments.setAdapter(new CommentsListAdapter(this, R.layout.item_comment, comments));
     }
 
     @Override

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey"
+    android:padding="5dip" >
+
+    <!-- Best Comment -->
+    <TextView
+        android:id="@+id/content_best_comment_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment"
+        android:textColor="@color/white"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"/>
+
+    <!-- User  -->
+    <TextView
+        android:id="@+id/content_best_comment_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_best_comment_comment"
+        android:textColor="@color/white"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_alignParentRight="true"
+        android:text="User" />
+
+    <!-- More Comments -->
+    <TextView
+        android:id="@+id/content_best_comment_new_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_best_comment_user"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:text="More Comments"
+        android:onClick="moreComments"/>
+
+
+
+</RelativeLayout>

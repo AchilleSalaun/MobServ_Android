@@ -51,7 +51,7 @@ public class MyContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundResource(R.color.grey);
+        toolbar.setBackgroundResource(R.color.black);
         toolbar.setTitle("My Content");
         setSupportActionBar(toolbar);
 
@@ -153,19 +153,22 @@ public class MyContentActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 List<Content> contents = response.body();
 
-                Log.i("STATUS", "" + response.message());
-                Log.i("STATUS", "" + statusCode);
-                Log.i("STATUS", "" + response.toString());
-                Log.i("STATUS", "" + response.raw());
-                Log.i("STATUS", "" + response.isSuccess());
 
-                like_list = new ArrayList<Content>();
-                for (int i = 0; i < contents.size(); i = i + 1) {
-                    like_list.add(contents.get(i));
+                if(contents!=null) {
+                    Log.i("STATUS", "" + response.message());
+                    Log.i("STATUS", "" + statusCode);
+                    Log.i("STATUS", "" + response.toString());
+                    Log.i("STATUS", "" + response.raw());
+                    Log.i("STATUS", "" + response.isSuccess());
+
+                    like_list = new ArrayList<Content>();
+                    for (int i = 0; i < contents.size(); i = i + 1) {
+                        like_list.add(contents.get(i));
+                    }
+                    listDataChild.put(listDataHeader.get(1), like_list);
+                    Log.i("ONRESPONSE RETROFIT", "FINISHED");
+                    Log.i("LEFTITEMS", "SIZE : " + like_list.size());
                 }
-                listDataChild.put(listDataHeader.get(1), like_list);
-                Log.i("ONRESPONSE RETROFIT", "FINISHED");
-                Log.i("LEFTITEMS", "SIZE : " + like_list.size());
 
 
                 onResponseChecked[0] = true;
