@@ -189,7 +189,7 @@ public class SearchableActivity extends AppCompatActivity {
         if( id == R.id.user){
             if(GlobalVars.DEBUG_TOAST)Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show();
             /***LANCER UNE ACTIVITE 'MYCONTENT' ***/
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MyContentActivity.class);
             startActivity(intent);
         }
 

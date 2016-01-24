@@ -237,6 +237,7 @@ public class NewContentActivity extends AppCompatActivity  {
         String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
         if(contentType_selected.equals(content_types[0]) || contentType_selected.equals(content_types[1])
                 || contentType_selected.equals(content_types[4])) {
+            Toast.makeText(this, "In Progress ...", Toast.LENGTH_LONG).show();
             Parsing.getTagValue(link, contentType_selected);
         }
         else{

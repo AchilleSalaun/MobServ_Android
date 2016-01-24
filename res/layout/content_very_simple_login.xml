@@ -75,11 +75,11 @@
                 android:onClick="signIn"/>
 
 
-            <Switch
+            <!--<Switch
                 android:id="@+id/switch_achille"
                 android:text="Servlet Recommendations"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
 
 
         </LinearLayout>

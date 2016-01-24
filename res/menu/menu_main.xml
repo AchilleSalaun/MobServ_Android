@@ -17,18 +17,20 @@
         android:title="Recommendations"
         app:showAsAction="never"/>
 
-    <!--Logout-->
-    <item
-        android:id="@+id/logout"
-        android:orderInCategory="300"
-        android:title="Log out"
-        app:showAsAction="never"/>
+
 
     <!--Add Content-->
     <item
         android:id="@+id/add_content"
-        android:orderInCategory="400"
+        android:orderInCategory="300"
         android:title="Add Content"
+        app:showAsAction="never"/>
+
+    <!--Logout-->
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="400"
+        android:title="Log out"
         app:showAsAction="never"/>
     
 

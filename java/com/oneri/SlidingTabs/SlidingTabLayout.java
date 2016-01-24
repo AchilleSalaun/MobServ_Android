@@ -22,6 +22,12 @@ import com.oneri.R;
  */
 
 /***
+ * ON NE L UTILISE PLUS
+ * MAINTENANT ON UTILISE PAGERSLIDESTRIP AVEC LEQUEL IL EST FACILE
+ * DE CHANGER LES COULEURS DES TABS
+ */
+
+/***
  * http://developer.android.com/samples/SlidingTabsBasic/index.html
  *
  * Voir les commentaires en francais pour voir ce que j'ai ajoute

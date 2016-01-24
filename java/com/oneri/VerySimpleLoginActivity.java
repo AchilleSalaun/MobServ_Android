@@ -23,7 +23,7 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
 
 
     private EditText emailTv;
-    private Switch switch_achille;
+    //private Switch switch_achille;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
         toolbar.setBackgroundResource(R.color.black);
         setSupportActionBar(toolbar);
         emailTv = (EditText) findViewById(R.id.email);
-        switch_achille = (Switch) findViewById(R.id.switch_achille);
-        switch_achille.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //switch_achille = (Switch) findViewById(R.id.switch_achille);
+        /*switch_achille.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
@@ -50,7 +50,8 @@ public class VerySimpleLoginActivity extends AppCompatActivity {
                 else
                     GlobalVars.SERVLET_ACHILLE_CHECKED = false;
             }
-        });
+        });*/
+        GlobalVars.SERVLET_ACHILLE_CHECKED = true;
     }
 
     public void signIn(View v){

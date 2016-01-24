@@ -244,12 +244,13 @@ public class ContentActivity extends AppCompatActivity {
         Integer id = v.getId();
         switch (id){
             case R.id.content_relation_likes:
-                relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_LIKES);
                 if(likes_selected) {
+                    relation.setmRelationType("no relation");
                     content_relation_likes_imageview.setBackgroundResource(R.drawable.likes);
                     likes_selected = false;
                 }
                 else {
+                    relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_LIKES);
                     content_relation_likes_imageview.setBackgroundResource(R.drawable.likes_selected);
                     likes_selected = true;
                 }
@@ -259,12 +260,13 @@ public class ContentActivity extends AppCompatActivity {
                 break;
 
             case R.id.content_relation_wishes:
-                relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_WAITING);
                 if(wishes_selected){
+                    relation.setmRelationType("no relation");
                     content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes);
                     wishes_selected = false;
                 }
                 else{
+                    relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_WAITING);
                     content_relation_wishes_imageview.setBackgroundResource(R.drawable.wishes_selected);
                     wishes_selected = true;
                 }
@@ -274,12 +276,13 @@ public class ContentActivity extends AppCompatActivity {
                 break;
 
             case R.id.content_relation_do_not_like:
-                relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE);
                 if(do_not_like_selected){
+                    relation.setmRelationType("no relation");
                     do_not_like_selected = false;
                     content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike);
                 }
                 else{
+                    relation.setmRelationType(GlobalVars.SAVE_RELATION_SERVLET_DOESNT_LIKE);
                     do_not_like_selected = true;
                     content_relation_do_not_like_imageview.setBackgroundResource(R.drawable.donotlike_selected);
                 }

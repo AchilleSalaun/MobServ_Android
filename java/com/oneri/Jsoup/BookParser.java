@@ -3,6 +3,7 @@ package com.oneri.Jsoup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -20,8 +21,19 @@ public class BookParser {
         Document doc;
         try{
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("tbody").select("li").get(0).select("a").get(0);
-            first_url_iblist_search_result = link.attr("href");
+            Elements links_tmp = doc.select("tbody").select("li");
+            if(links_tmp.size()!=0) {
+                Elements links = links_tmp.get(0).select("a");
+                if (links.size() != 0) {
+                    Element link = links.get(0);
+                    first_url_iblist_search_result = link.attr("href");
+                } else {
+                    first_url_iblist_search_result = "";
+                }
+            }
+            else{
+                first_url_iblist_search_result = "";
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getFirstURLIblistSearchResult title_url_encoded : " +
                     title_url_encoded + " url : " + url;
@@ -79,11 +91,18 @@ public class BookParser {
         String iblist_base_url = "http://iblist.com/";
         try{
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=main]").select("div[class=boxbody]").get(1).select("tbody").
-                    select("img[src]").get(0);
+            Elements links = doc.select("div[id=main]").select("div[class=boxbody]").get(1).select("tbody").
+                    select("img[src]");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                iblist_image_url = iblist_base_url + link.attr("src");
+            }
+            else{
+                iblist_image_url = "";
+            }
+
             //Element link = doc.select("div[id=main]").select("div[class=boxbody]").get(1).select("tbody").
             //	select("a[target=_new").get(0);
-            iblist_image_url = iblist_base_url + link.attr("src");
             //iblist_image_url = iblist_base_url + link.attr("href");
 
         }catch(IOException e){

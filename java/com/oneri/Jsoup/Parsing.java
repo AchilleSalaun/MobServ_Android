@@ -88,6 +88,10 @@ public class Parsing {
                     creator = BookParser.getIblistAuthor(url_content);
                     description = BookParser.getIblistDescription(url_content);
                     image_url = BookParser.getIblistImageURL(url_content);
+                    if(image_url==""){
+                        image_url = no_image_url;
+                    }
+                    commercialLink = "";
                     submit_allowed = true;
                 }
                 else{

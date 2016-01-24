@@ -15,6 +15,13 @@ import android.widget.LinearLayout;
  */
 
 /***
+ * ON NE L UTILISE PLUS
+ * MAINTENANT ON UTILISE PAGERSLIDESTRIP AVEC LEQUEL IL EST FACILE
+ * DE CHANGER LES COULEURS DES TABS
+ */
+
+
+/***
  * http://developer.android.com/samples/SlidingTabsBasic/index.html
  *
  * Je n'y touche pas
