@@ -76,9 +76,12 @@ public class BookParser {
         String iblist_description = "";
         try{
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=main]").select("div[class=boxbody]").get(0).select("td[class=content").
-                    select("div[class=indent]").get(0);
-            iblist_description = link.text();
+            Elements links = doc.select("div[id=main]").select("div[class=boxbody]").get(0).select("td[class=content").
+                    select("div[class=indent]");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                iblist_description = link.text();
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIblistDescription url : " + url;
         }
@@ -98,7 +101,7 @@ public class BookParser {
                 iblist_image_url = iblist_base_url + link.attr("src");
             }
             else{
-                iblist_image_url = "";
+                iblist_image_url = Parsing.no_image_url;
             }
 
             //Element link = doc.select("div[id=main]").select("div[class=boxbody]").get(1).select("tbody").

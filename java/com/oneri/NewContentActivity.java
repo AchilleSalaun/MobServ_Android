@@ -232,7 +232,10 @@ public class NewContentActivity extends AppCompatActivity  {
 
     public void sendLink(View v){
         EditText link_et = (EditText) findViewById(R.id.new_content_link);
+        link_et.clearFocus();
         String link = link_et.getText().toString();
+
+
 
         String[] content_types = GlobalVars.APP_CONTEXT.getResources().getStringArray(R.array.content_types);
         if(contentType_selected.equals(content_types[0]) || contentType_selected.equals(content_types[1])

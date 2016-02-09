@@ -69,7 +69,7 @@ public class Parsing {
                     creator = MovieParser.getIMDBMovieDirector(url_content);
                     description = MovieParser.getIMDBSmallDescription(url_content);
                     image_url = MovieParser.getIMDBImageURL(url_content);
-                    commercialLink = MovieParser.getAmazonCommercialLink(title);
+                    commercialLink = MovieParser.getAmazonMovieCommercialLink(title);
                     submit_allowed = true;
                 }
                 else{
@@ -113,10 +113,10 @@ public class Parsing {
                 url_content = SeriesParser.getFirstURLIMDBSearchResult(user_input);
                 if(url_content!="") {
                     title = SeriesParser.getIMDBTitleName(url_content);
-                    creator = SeriesParser.getIMDBSeriesCreator(url_content);
+                    creator = SeriesParser.getIMDBMovieCreator(url_content);
                     description = SeriesParser.getIMDBSmallDescription(url_content);
                     image_url = SeriesParser.getIMDBImageURL(url_content);
-                    commercialLink = SeriesParser.getAmazonCommercialLink(title);
+                    commercialLink = SeriesParser.getAmazonMovieCommercialLink(title);
                     submit_allowed = true;
                 }
                 else

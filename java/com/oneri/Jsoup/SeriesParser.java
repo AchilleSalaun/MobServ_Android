@@ -45,24 +45,24 @@ public class SeriesParser {
         return first_url_imdb_search_result;
     }
 
-    public static String getIMDBSeriesCreator(String url){
-        String imdb_movie_creator = "";
+    public static String getIMDBMovieCreator(String url){
+        String imdb_series_director = "";
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Elements links = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("td[id=overview-top]").
-                    select("div[itemprop=creator]").select("span[itemprop=name]");
+            Elements links = doc.select("div[id=wrapper]").select("div[id=content-2-wide]").select("div[class=plot_summary_wrapper]").
+                    select("div[class=credit_summary_item]").select("span[itemprop=name]");
             if(links.size()!=0){
                 Element link = links.get(0);
-                imdb_movie_creator = link.text();
+                imdb_series_director = link.text();
             }
             else{
-                imdb_movie_creator = "";
+                imdb_series_director = "";
             }
         }catch(IOException e){
-            return "IOException in Jsoup.connect(url).get() getIMDBCreatorDirector";
+            return "IOException in Jsoup.connect(url).get() getIMDBMovieDirector";
         }
-        return imdb_movie_creator;
+        return imdb_series_director;
     }
 
     public static String getIMDBSmallDescription(String url){
@@ -70,21 +70,35 @@ public class SeriesParser {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("p[itemprop=description]").get(0); // selectionne le contenu wikipedia pour l'app
-            imdb_small_description = link.text();
+            Elements links = doc.select("div[id=wrapper]").select("div[id=content-2-wide]").
+                    select("div[class=plot_summary_wrapper]").select("div[class=summary_text]");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                imdb_small_description = link.text();
+            }
+            else{
+                imdb_small_description = "";
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIMDBSmallDescription";
         }
         return imdb_small_description;
     }
 
+
     public static String getIMDBTitleName(String url){
         String imdb_title_name = "";
         Document doc;
+        System.out.println("URL MOVIE : " + url);
         try {
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("h1[class=header]").select("span[itemprop=name]").get(0); // selectionne le contenu wikipedia pour l'app
-            imdb_title_name = link.text();
+            Elements links = doc.select("div[id=wrapper]").select("div[id=root]").select("div[id=content-2-wide]").
+                    select("div[id=main_top]").select("div[class=title_wrapper]").
+                    select("h1[itemprop=name]");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                imdb_title_name = link.text();
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIMDBTitleName";
         }
@@ -96,15 +110,22 @@ public class SeriesParser {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("td[id=img_primary]").select("div[class=image]").select("a[href]").select("img").get(0); // selectionne le contenu wikipedia pour l'app
-            imdb_image_url = link.attr("src");
+            Elements links = doc.select("div[id=content-2-wide]").select("div[class=poster]").select("img");
+             // selectionne le contenu wikipedia pour l'app
+            if(links.size()!=0){
+                Element link = links.get(0);
+                imdb_image_url = link.attr("src");
+            }
+            else{
+                imdb_image_url = Parsing.no_image_url;
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIMDBImageURL";
         }
         return imdb_image_url;
     }
 
-    public static String getAmazonCommercialLink(String search_query){
+    public static String getAmazonMovieCommercialLink(String search_query){
 
         String url_encoded_search_query = URLEncoder.encode(search_query.toLowerCase());
         String amazon_commercial_link = "";
@@ -142,4 +163,3 @@ public class SeriesParser {
     }
 
 }
-

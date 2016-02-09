@@ -89,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:autoLink="web"
                     android:paddingTop="10dp"
-                    android:text="Commercial Link" />
+                    android:singleLine="true"
+                    android:text="" />
             </LinearLayout>
 
             <!--
@@ -227,7 +228,9 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="2dp"
-                    android:paddingTop="5dp">
+                    android:paddingTop="5dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/content_new_comment"
@@ -236,6 +239,7 @@
                         android:background="@drawable/rounded_edit_text"
                         android:hint="Type a comment ..."
                         android:paddingBottom="2dp"
+                        android:focusable="true"
                         android:singleLine="true"/>
 
                     <View

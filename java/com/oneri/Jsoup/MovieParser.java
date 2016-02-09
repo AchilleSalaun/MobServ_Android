@@ -48,8 +48,8 @@ public class MovieParser {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Elements links = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("td[id=overview-top]").
-                    select("div[itemprop=director]").select("span[itemprop=name]");
+            Elements links = doc.select("div[id=wrapper]").select("div[id=content-2-wide]").select("div[class=plot_summary_wrapper]").
+                    select("div[class=credit_summary_item]").select("span[itemprop=name]");
             if(links.size()!=0){
                 Element link = links.get(0);
                 imdb_movie_director = link.text();
@@ -68,7 +68,8 @@ public class MovieParser {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Elements links = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("p[itemprop=description]");
+            Elements links = doc.select("div[id=wrapper]").select("div[id=content-2-wide]").
+                    select("div[class=plot_summary_wrapper]").select("div[class=summary_text]");
             if(links.size()!=0){
                 Element link = links.get(0);
                 imdb_small_description = link.text();
@@ -85,10 +86,16 @@ public class MovieParser {
     public static String getIMDBTitleName(String url){
         String imdb_title_name = "";
         Document doc;
+        System.out.println("URL MOVIE : " + url);
         try {
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("h1[class=header]").select("span[itemprop=name]").get(0);
-            imdb_title_name = link.text();
+            Elements links = doc.select("div[id=wrapper]").select("div[id=root]").select("div[id=content-2-wide]").
+                    select("div[id=main_top]").select("div[class=title_wrapper]").
+                    select("h1[itemprop=name]");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                imdb_title_name = link.text();
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIMDBTitleName";
         }
@@ -100,15 +107,21 @@ public class MovieParser {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-            Element link = doc.select("div[id=pagecontent]").select("div[id=main_top]").select("td[id=img_primary]").select("div[class=image]").select("a[href]").select("img").get(0); // selectionne le contenu wikipedia pour l'app
-            imdb_image_url = link.attr("src");
+            Elements links = doc.select("div[id=content-2-wide]").select("div[class=poster]").select("img");
+            if(links.size()!=0){
+                Element link = links.get(0);
+                imdb_image_url = link.attr("src");
+            }
+            else{
+                imdb_image_url = Parsing.no_image_url;
+            }
         }catch(IOException e){
             return "IOException in Jsoup.connect(url).get() getIMDBImageURL";
         }
         return imdb_image_url;
     }
 
-    public static String getAmazonCommercialLink(String search_query){
+    public static String getAmazonMovieCommercialLink(String search_query){
 
         String url_encoded_search_query = URLEncoder.encode(search_query.toLowerCase());
         String amazon_commercial_link = "";
@@ -150,4 +163,3 @@ public class MovieParser {
 
 
 }
-
